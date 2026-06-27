@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="description" content="Number Increment - A customized, responsive counter and badge tracker by Sandeep Biswal G. Available in Odia and English.">
+    <meta name="keywords" content="Number Increment, Counter App, Sandeep Biswal G, Odia, Android Developer, Utility, Badge Tracker, Plyxo Games, goa commscope, commscope, commscope fiber, fiber badge count">
+    <meta name="author" content="Sandeep Biswal G">
+    <title>Number Increment - Sandeep Biswal G</title>
+
+    <link rel="canonical" href="http://imsbg.github.io/num-increment">
+
+<meta name="description" content="Number Increment - A customized, responsive counter and badge tracker by Sandeep Biswal G. Available in Odia and English.">
+<meta name="keywords" content="Number Increment, Counter App, Sandeep Biswal G, Odia, Android Developer, Utility, Badge Tracker, Plyxo Games, goa commscope, commscope, commscope fiber, fiber badge count, odia bhasa app, Odia Bhasa">
+<meta name="author" content="Sandeep Biswal G">
+<meta property="og:site_name" content="Num Increment">
+<meta property="og:title" content="Number Increment - Num Increment">
+<meta property="og:type" content="website">
+<meta property="og:url" content="http://imsbg.github.io/num-increment">
+
+    <link rel="manifest" id="dynamic-manifest">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --md-sys-color-primary: #005ac1;
+            --md-sys-color-on-primary: #ffffff;
+            --md-sys-color-primary-container: #d8e2ff;
+            --md-sys-color-on-primary-container: #001a41;
+            --md-sys-color-secondary-container: #dce2f9;
+            --md-sys-color-background: #fdfbff;
+            --md-sys-color-surface: #fdfbff;
+            --md-sys-color-surface-variant: #e1e2ec;
+            --md-sys-color-on-surface: #1a1b1e;
+            --md-sys-color-error: #ba1a1a;
+            --md-sys-color-on-error: #ffffff;
+            --border-radius: 24px;
+        }
+
+        /* --- New Dark Mode Feature CSS --- */
+        body.dark-theme {
+            --md-sys-color-primary: #a8c7fa;
+            --md-sys-color-on-primary: #062e6f;
+            --md-sys-color-primary-container: #004593;
+            --md-sys-color-on-primary-container: #d8e2ff;
+            --md-sys-color-secondary-container: #334b6b;
+            --md-sys-color-background: #121212;
+            --md-sys-color-surface: #1e1e1e;
+            --md-sys-color-surface-variant: #333333;
+            --md-sys-color-on-surface: #e2e2e2;
+            --md-sys-color-error: #ffb4ab;
+            --md-sys-color-on-error: #690005;
+        }
+        
+        body.dark-theme select, 
+        body.dark-theme .styled-input,
+        body.dark-theme .nav-collapse.active {
+            color: var(--md-sys-color-on-surface);
+            border-color: #555;
+        }
+
+        body.dark-theme .mobile-overlay {
+            background: rgba(255,255,255,0.1);
+        }
+
+        body.dark-theme .promo-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        body.dark-theme.target-reached-bg {
+            background: linear-gradient(135deg, #2b580c 0%, #174b21 100%);
+        }
+
+        body.dark-theme .modal-content {
+            background: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-surface);
+        }
+        body.dark-theme .history-item { border-bottom: 1px solid rgba(255,255,255,0.1); }
+        /* --- End Dark Mode CSS --- */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Google Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-surface);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.6s ease-in-out, color 0.6s ease-in-out; 
+        }
+
+        /* Eye-catchy Success Background */
+        body.target-reached-bg {
+            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+        }
+
+        /* Loading Screen */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--md-sys-color-primary-container);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999; transition: opacity 0.5s ease; text-align: center;
+        }
+        #loader-content { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        #loader h1 { color: var(--md-sys-color-on-primary-container); margin-bottom: 16px; font-size: 2.5rem; }
+        #loader h2 { color: var(--md-sys-color-primary); font-weight: 500; font-size: 1.5rem;}
+        .loader-footer { padding: 24px; font-weight: 500; color: var(--md-sys-color-on-primary-container); opacity: 0.8; }
+
+        .odia-sub { display: block; font-size: 0.85em; opacity: 0.8; margin-top: 4px; }
+
+        /* Navigation (Floating Desktop Header) */
+        nav { 
+            background-color: var(--md-sys-color-surface); 
+            padding: 16px 24px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+            position: sticky; 
+            top: 0;
+            z-index: 1000;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.6s;
+        }
+        
+        @media (min-width: 768px) {
+            nav {
+                margin: 24px auto 0 auto;
+                border-radius: 100px;
+                max-width: 1200px;
+                width: calc(100% - 48px);
+                top: 24px;
+            }
+            nav.nav-hidden {
+                transform: translateY(-150px);
+            }
+        }
+
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+        .nav-brand { font-weight: 700; font-size: 1.2rem; color: var(--md-sys-color-primary); }
+
+        .menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: var(--md-sys-color-on-surface); cursor: pointer; padding: 8px; }
+
+        /* Floating Progress Bar */
+        #floatingProgress {
+            position: fixed; top: -100px; left: 0; width: 100%;
+            background: var(--md-sys-color-surface);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 12px 24px; z-index: 900;
+            transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.6s;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        #floatingProgress.visible { top: 0; }
+        .float-info { display: flex; justify-content: space-between; width: 100%; max-width: 600px; margin-bottom: 8px; font-weight: 600; }
+        
+        /* Progress Bar Gradient & Rounded Corners */
+        .float-bar-bg { 
+            width: 100%; max-width: 600px; height: 10px; 
+            background: var(--md-sys-color-surface-variant); 
+            border-radius: 20px; overflow: hidden; 
+        }
+        .float-bar-fill { 
+            height: 100%; 
+            background: linear-gradient(90deg, var(--md-sys-color-primary), #001a41);
+            border-radius: 20px;
+            transition: width 0.3s ease; 
+        }
+
+        /* Responsive Mobile Menu */
+        .mobile-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 1001; opacity: 0; transition: opacity 0.3s;
+        }
+        .nav-collapse { display: flex; gap: 16px; align-items: center; }
+        .nav-btn { text-decoration: none; color: var(--md-sys-color-on-surface); font-weight: 500; padding: 8px 16px; border-radius: 100px; transition: background 0.2s; text-align: center; }
+        .nav-btn:hover { background-color: var(--md-sys-color-surface-variant); }
+
+        select, .styled-input {
+            padding: 8px 16px; border-radius: 100px; border: 1px solid var(--md-sys-color-surface-variant);
+            background: var(--md-sys-color-surface); font-family: 'Google Sans', sans-serif; font-weight: 500; cursor: pointer; outline: none;
+            transition: background-color 0.6s, color 0.6s;
+        }
+
+        main { flex: 1; padding: 24px; max-width: 1200px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 24px; }
+
+        /* Plyxo Games Promo Card */
+        .promo-card {
+            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff; border-radius: var(--border-radius); padding: 20px;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); gap: 12px; margin-top: 16px; width: 100%; text-decoration: none; transition: transform 0.2s, background 0.2s;
+        }
+        .promo-card:hover { transform: scale(0.98); background: rgba(255, 255, 255, 0.15); }
+        .promo-title { font-size: 1.2rem; font-weight: 700; }
+        .promo-sub { font-size: 0.9rem; opacity: 0.9; }
+        .promo-btn { background: #ffffff; color: #001a41; padding: 8px 24px; border-radius: 100px; font-weight: 700; font-size: 0.9rem; border: none; cursor: pointer; }
+
+        /* Fallback dark promo card for mobile menu since mobile menu is light themed */
+        .nav-collapse .promo-card {
+            background: linear-gradient(135deg, #001a41, #005ac1);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 90, 193, 0.2);
+        }
+
+        .top-actions { display: flex; justify-content: center; width: 100%; }
+        .btn-switch-mode {
+            background-color: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container);
+            border: none; padding: 12px 24px; border-radius: 100px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* SVG Rotate Icon Animation */
+        #rotateIcon { transition: transform 0.4s ease; fill: currentColor; }
+        .rotated { transform: rotate(180deg); }
+
+        .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+        .card {
+            background-color: var(--md-sys-color-surface); border-radius: var(--border-radius); padding: 32px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border: 1px solid var(--md-sys-color-surface-variant); position: relative;
+            transition: background-color 0.6s;
+        }
+
+        .number-display { font-size: 5rem; font-weight: 700; color: var(--md-sys-color-primary); margin: 16px 0; word-break: break-all; }
+
+        #interaction-area { display: flex; flex-direction: column; align-items: center; margin-top: 16px; width: 100%; }
+        .controls { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; justify-content: center; }
+
+        button { border: none; padding: 16px 32px; border-radius: 100px; font-size: 1.15rem; font-weight: 600; cursor: pointer; transition: transform 0.1s, opacity 0.2s, background-color 0.6s, color 0.6s; display: flex; flex-direction: column; align-items: center; }
+        button:active { transform: scale(0.95); }
+
+        .btn-inc { background-color: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); }
+        .btn-dec { background-color: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-surface); }
+        .btn-reset { background-color: var(--md-sys-color-error); color: var(--md-sys-color-on-error); padding: 12px 24px; margin-top: auto;}
+
+        .step-control { display: flex; align-items: center; gap: 12px; background: var(--md-sys-color-surface-variant); padding: 8px 16px; border-radius: 100px; margin-bottom: 24px; transition: background-color 0.6s; }
+        .step-control input { color: var(--md-sys-color-on-surface); width: 60px; border: none; background: transparent; font-size: 1.2rem; font-weight: bold; text-align: center; outline: none; font-family: 'Google Sans', sans-serif; transition: color 0.6s; }
+
+        .svg-badge { width: 80px; height: 80px; fill: var(--md-sys-color-primary); margin-bottom: 8px; }
+
+        /* Target Feature Styles */
+        .target-card { grid-column: 1 / -1; align-items: stretch; padding: 24px; }
+        .target-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; }
+        .target-progress-bg { background: var(--md-sys-color-surface-variant); height: 16px; border-radius: 8px; width: 100%; overflow: hidden; position: relative; }
+        .target-progress-fill { background: var(--md-sys-color-primary); height: 100%; width: 0%; transition: width 0.3s ease, background-color 0.3s ease; }
+        .target-info { display: flex; justify-content: space-between; margin-top: 8px; font-weight: 600; }
+        
+        .custom-target-input { display: none; margin-left: 8px; width: 100px; }
+        .show-custom { display: inline-block !important; }
+
+        /* Modern Gradient Rounded Footer */
+        footer { 
+            padding: 40px 24px 32px 24px; 
+            text-align: center; 
+            background: linear-gradient(135deg, #001a41, var(--md-sys-color-primary));
+            color: #ffffff;
+            border-top-left-radius: 40px; 
+            border-top-right-radius: 40px; 
+            margin-top: 40px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.1);
+            transition: background 0.6s;
+        }
+
+        /* --- Length Check Full-Screen Desktop Split Modal Styles --- */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-content {
+            background: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-surface);
+            width: 100vw; height: 100vh;
+            position: relative; display: flex; justify-content: center; align-items: center;
+            overflow: hidden; /* Prevents global scrolling in desktop */
+        }
+        
+        .lc-layout {
+            display: flex; flex-direction: column; width: 100%; max-width: 1100px;
+            height: 100%; padding: 24px; box-sizing: border-box; overflow-y: auto; /* Scrollable on mobile */
+        }
+        
+        .lc-left, .lc-right { display: flex; flex-direction: column; width: 100%; gap: 12px; }
+        .lc-right { align-items: center; margin-top: 32px; gap: 16px; }
+
+        .modal-close {
+            position: absolute; top: 20px; right: 24px;
+            background: var(--md-sys-color-surface-variant); border: none; border-radius: 50%; width: 36px; height: 36px;
+            cursor: pointer; display: flex; justify-content: center; align-items: center;
+            color: var(--md-sys-color-on-surface); font-weight: bold; font-size: 1.2rem; padding: 0; z-index: 10;
+        }
+
+        .lc-layout .styled-input { width: 100%; margin-bottom: 8px; margin-top: 4px; box-sizing: border-box; }
+        .lc-layout label { font-size: 0.9rem; font-weight: 600; opacity: 0.9; margin-left: 8px; display: block; }
+        
+        .btn-outline {
+            background: transparent; color: var(--md-sys-color-primary); border: 2px solid var(--md-sys-color-primary);
+            padding: 12px 24px; border-radius: 100px; font-weight: 600; cursor: pointer; width: 100%; text-align: center;
+            transition: background 0.3s, color 0.3s; font-size: 1.1rem;
+        }
+        .btn-outline:hover { background: var(--md-sys-color-primary-container); }
+
+        .history-wrapper {
+            display: none; width: 100%; flex-direction: column; flex: 1;
+            background: var(--md-sys-color-surface-variant); border-radius: 16px; padding: 12px;
+            overflow-y: auto; max-height: 250px; box-sizing: border-box;
+        }
+        .history-wrapper.show { display: flex; }
+        .history-item { font-size: 0.9rem; padding: 8px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .history-item:last-child { border-bottom: none; }
+
+        /* Desktop specific layout */
+        @media (min-width: 768px) {
+            .lc-layout {
+                flex-direction: row; align-items: center; justify-content: center;
+                gap: 64px; overflow: hidden; height: auto; max-height: 90vh; /* No page scroll */
+            }
+            .lc-left { flex: 1; max-width: 450px; justify-content: center; }
+            .lc-right { flex: 1; max-width: 450px; margin-top: 0; justify-content: center; }
+            .modal-close { display: none; } /* Hide 'x' on desktop, we use Back button */
+            
+            /* Enhanced floating bar specifically optimized for Mobile/Tablet */
+            #floatingProgress { padding: 12px 16px; }
+        }
+
+        /* Responsive Mobile Breakpoints */
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-collapse {
+                display: flex; flex-direction: column; position: fixed;
+                top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
+                background: var(--md-sys-color-surface); padding: 24px; border-radius: 24px;
+                width: 90%; max-width: 350px; z-index: 1002; box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+                opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .nav-collapse.active { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+            .mobile-overlay.active { display: block; opacity: 1; }
+            .nav-collapse .nav-btn, .nav-collapse select { width: 100%; margin-bottom: 8px; }
+            .grid-container { grid-template-columns: 1fr; }
+            .number-display { font-size: 4rem; }
+            
+            .lc-right { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div style="display: none;" aria-hidden="true">
+        goa commscope , commscope, commscope fiber , fiber badge count
+    </div>
+
+    <div id="loader">
+        <div id="loader-content">
+            <h1>Number Increment<span class="odia-sub">ସଂଖ୍ୟା ବୃଦ୍ଧି</span></h1>
+            <h2><span class="odia-sub">Sandeep Biswal G Apps</span></h2>
+        </div>
+        <div class="loader-footer" data-key="footerCredit">
+            by Sandeep Biswal G
+        </div>
+    </div>
+
+    <div id="floatingProgress">
+        <div class="float-info">
+            <span id="floatRemainingText" data-key="remainingText">Remaining: 0</span>
+            <span id="floatTargetDisplay">0 / 0</span>
+        </div>
+        <div class="float-bar-bg">
+            <div class="float-bar-fill" id="floatProgressFill"></div>
+        </div>
+    </div>
+
+    <div class="mobile-overlay" id="mobileOverlay" onclick="toggleMenu()"></div>
+    
+    <nav id="mainNav">
+        <div class="nav-container">
+            <div class="nav-brand">Num Increment</div>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <div class="nav-collapse" id="navMenu">
+                <a href="https://imsbg.github.io/" class="nav-btn" target="_blank">
+                    <span data-key="home">Home</span>
+                </a>
+                <a href="https://www.instagram.com/sandeepbiswalg" class="nav-btn" target="_blank">
+                    <span data-key="follow">Follow Me</span>
+                </a>
+
+                <!-- New Length Check Button -->
+                <a href="#lengthcheck" class="nav-btn">
+                    <span data-key="lengthCheckBtn">Length Check</span>
+                </a>
+
+                <select id="langSwitch">
+                    <option value="both">Mix (Eng & Odia)</option>
+                    <option value="odia">ଓଡ଼ିଆ</option>
+                </select>
+                
+                <button class="nav-btn" onclick="toggleManualTheme()" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 8px 16px;">
+                    <span id="themeToggleText">🌙 Dark</span>
+                </button>
+
+                <a href="https://play.google.com/store/apps/details?id=in.sandeep.plyxogames" target="_blank" class="promo-card" id="androidPromoCard" style="display: none;">
+                    <div class="promo-title" data-key="promoTitle">Download Plyxo Games</div>
+                    <div class="promo-sub" data-key="promoSub">Where Every Move Matters.</div>
+                    <div class="promo-btn">Get It Now</div>
+                </a>
+                
+                </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="card target-card">
+            <div class="target-header">
+                <div>
+                    <strong data-key="targetLabel">Set Target:</strong>
+                    <select id="targetSelect" class="styled-input">
+                        <option value="0" data-key="noTarget">No Target</option>
+                        <option value="200">200</option>
+                        <option value="300">300</option>
+                        <option value="460">460</option>
+                        <option value="500">500</option>
+                        <option value="custom" data-key="custom">Custom</option>
+                    </select>
+                    <input type="number" id="customTargetInput" class="styled-input custom-target-input" placeholder="e.g. 1000">
+                </div>
+                <button class="btn-reset" onclick="resetData()" style="margin:0; padding: 8px 16px;">
+                    <span data-key="btnReset">Reset Data</span>
+                </button>
+            </div>
+            <div id="progressContainer" style="display:none;">
+                <div class="target-progress-bg">
+                    <div class="target-progress-fill" id="progressFill"></div>
+                </div>
+                <div class="target-info">
+                    <span id="progressStatus" data-key="remainingText">Remaining: 0</span>
+                    <span id="targetDisplay">0 / 0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="top-actions">
+            <button class="btn-switch-mode" onclick="toggleMode()">
+                <svg id="rotateIcon" viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>
+                </svg>
+                <span id="modeText" data-key="modeNumber">Mode: Number Increment</span>
+            </button>
+        </div>
+
+        <div class="grid-container">
+            <div class="card" id="card-number">
+                <h2 data-key="currentNum">Current Number</h2>
+                <div class="number-display" id="countDisplay">0</div>
+                <div id="anchor-number"></div>
+            </div>
+
+            <div class="card" id="card-badge">
+                <svg class="svg-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l2.4 7.4h7.6l-6.1 4.5 2.3 7.1-6.2-4.6-6.2 4.6 2.3-7.1-6.1-4.5h7.6z"/>
+                </svg>
+                <h2 data-key="badges">Total Badges</h2>
+                <div class="number-display" id="badgeDisplay">0</div>
+                <div id="smallTotalDisplay" style="font-size: 1.25rem; font-weight: 700; color: var(--md-sys-color-primary); opacity: 0.8; margin-top: -12px; margin-bottom: 8px;">(Total: 0)</div>
+                
+                <p style="opacity: 0.7; margin-top: 8px;" data-key="badgeDesc">1 Badge = 6 Increments</p>
+                <div id="anchor-badge"></div>
+            </div>
+        </div>
+    </main>
+
+    <div id="interaction-area">
+        <div class="step-control">
+            <label data-key="stepLabel">Increment Step:</label>
+            <input type="number" id="stepInput" min="1" value="1">
+        </div>
+        <div class="controls">
+            <button class="btn-dec" onclick="changeCount(-1)">
+                <span id="btnDecText" data-key="btnDecNum">- Decrease</span>
+            </button>
+            <button class="btn-inc" onclick="changeCount(1)">
+                <span id="btnIncText" data-key="btnIncNum">+ Increase</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Fiber Length Check Modal (Full Screen & Split Layout) -->
+    <div id="lengthCheckModal" class="modal-overlay" onclick="closeLengthCheck(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="window.location.hash=''">✕</button>
+            
+            <div class="lc-layout">
+                <!-- Left Side: Inputs -->
+                <div class="lc-left">
+                    <h2 style="margin-bottom: 16px; margin-top: 0; color: var(--md-sys-color-primary); display: flex; align-items: center; gap: 8px;">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7zm4-8h6v2h-6zm0 4h6v2h-6zm0 4h6v2h-6z"/></svg>
+                        <span data-key="lengthCheckTitle">Fiber Length Check</span>
+                    </h2>
+                    
+                    <div>
+                        <label data-key="lcRead1">Reading End 1</label>
+                        <input type="number" id="lc_read1" class="styled-input" placeholder="e.g. 1500">
+                    </div>
+                    
+                    <div>
+                        <label data-key="lcRead2">Reading End 2</label>
+                        <input type="number" id="lc_read2" class="styled-input" placeholder="e.g. 1000">
+                    </div>
+                    
+                    <div>
+                        <label data-key="lcEnd1">End 1 Preparation (cm)</label>
+                        <input type="number" id="lc_end1cm" class="styled-input" placeholder="e.g. 150">
+                    </div>
+                    
+                    <div>
+                        <label data-key="lcEnd2">End 2 Preparation (cm)</label>
+                        <input type="number" id="lc_end2cm" class="styled-input" placeholder="e.g. 150">
+                    </div>
+                    
+                    <div style="display: flex; gap: 12px; margin-top: 16px;">
+                        <button class="btn-dec" style="flex: 1; padding: 12px; font-size: 1rem;" onclick="clearInputs()">
+                            <span data-key="lcClearInputs">Clear Inputs</span>
+                        </button>
+                        <button class="btn-inc" style="flex: 1; padding: 12px; font-size: 1rem;" onclick="calculateLength()">
+                            <span data-key="lcCalc">Calculate Length</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Side: Results, History & Back -->
+                <div class="lc-right">
+                    <div style="width: 100%; font-size: 1.5rem; font-weight: bold; text-align: center; background: var(--md-sys-color-secondary-container); padding: 32px 16px; border-radius: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                        <span data-key="lcResultText" style="color: var(--md-sys-color-on-surface); display:block; font-size: 1.1rem; opacity:0.8; margin-bottom: 8px;">Result:</span> 
+                        <span id="lc_result" style="color: var(--md-sys-color-primary); font-size: 2.2rem;">0.00 m</span>
+                    </div>
+
+                    <button class="btn-outline" onclick="toggleLCHistory()">
+                        <span id="lc_hist_btn_text" data-key="lcViewHistory">View History</span>
+                    </button>
+
+                    <div id="lc_history_wrapper" class="history-wrapper">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; position: sticky; top: 0; background: var(--md-sys-color-surface-variant); padding-bottom: 8px;">
+                            <h3 style="font-size: 1.1rem; opacity: 0.9;" data-key="lcHistTitle">History</h3>
+                            <button style="padding: 6px 16px; font-size: 0.85rem; font-weight: bold; background: var(--md-sys-color-error); color: white; border-radius: 100px; cursor: pointer; border: none;" onclick="clearHistory()">
+                                <span data-key="lcClear">Clear</span>
+                            </button>
+                        </div>
+                        <div id="lc_history">
+                            <!-- History items load dynamically -->
+                        </div>
+                    </div>
+
+                    <button class="btn-dec" style="width: 100%; padding: 14px; margin-top: auto; font-size: 1.1rem; background-color: var(--md-sys-color-surface-variant);" onclick="window.location.hash=''">
+                        <span data-key="lcBackBtn">Back to Num Increment</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="https://play.google.com/store/apps/details?id=in.sandeep.plyxogames" target="_blank" class="promo-card" style="max-width: 600px;">
+            <div class="promo-title" data-key="promoTitle">Download Plyxo Games</div>
+            <div class="promo-sub" data-key="promoSub">Where Every Move Matters.</div>
+        </a>
+        <div style="margin-top: 24px; opacity: 0.85; font-size: 1rem; font-weight: 600;">
+            <a href="https://play.google.com/store/apps/dev?id=6501689567504406715" target="_blank" style="color: #fff; text-decoration: none;" data-key="footerCredit">
+                by Sandeep Biswal G
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // --- NEW FEATURES BLOCK (Theme & PWA) ---
+        
+        function applyTimeBasedTheme() {
+            if (localStorage.getItem('sbg_theme_override')) return; // Skip if user manually chose
+            const hour = new Date().getHours();
+            const themeBtn = document.getElementById('themeToggleText');
+            // 6 AM (6) to 5:59 PM (17) is Light Mode. Otherwise Dark.
+            if (hour >= 6 && hour < 18) {
+                document.body.classList.remove('dark-theme');
+                if(themeBtn) themeBtn.innerText = '🌙 Dark';
+            } else {
+                document.body.classList.add('dark-theme');
+                if(themeBtn) themeBtn.innerText = '☀️ Light';
+            }
+        }
+
+        function toggleManualTheme() {
+            const isDark = document.body.classList.toggle('dark-theme');
+            document.getElementById('themeToggleText').innerText = isDark ? '☀️ Light' : '🌙 Dark';
+            localStorage.setItem('sbg_theme_override', isDark ? 'dark' : 'light');
+        }
+
+        // Initialize Theme on Load
+        const savedTheme = localStorage.getItem('sbg_theme_override');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+            document.getElementById('themeToggleText').innerText = '☀️ Light';
+        } else if (savedTheme === 'light') {
+            document.body.classList.remove('dark-theme');
+            document.getElementById('themeToggleText').innerText = '🌙 Dark';
+        } else {
+            applyTimeBasedTheme();
+        }
+        setInterval(applyTimeBasedTheme, 60000); // Check time every minute
+
+        // Setup Single-File PWA Dynamically
+        const manifestJSON = {
+            "name": "Number Increment",
+            "short_name": "NumInc",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#fdfbff",
+            "theme_color": "#005ac1",
+            "icons": [{
+                "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzAwNWFjMSI+PHBhdGggZD0iTTEyIDJsMi40IDcuNGg3LjZsLTYuMSA0LjUgMi4zIDcuMS02LjItNC42LTYuMiA0LjYgMi4zLTcuMS02LjEtNC41aDcuNnoiLz48L3N2Zz4=",
+                "sizes": "192x192",
+                "type": "image/svg+xml",
+                "purpose": "any maskable"
+            }]
+        };
+        const manifestBlob = new Blob([JSON.stringify(manifestJSON)], {type: 'application/json'});
+        document.getElementById('dynamic-manifest').href = URL.createObjectURL(manifestBlob);
+
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                self.addEventListener('install', (e) => { self.skipWaiting(); });
+                self.addEventListener('activate', (e) => { e.waitUntil(clients.claim()); });
+                self.addEventListener('fetch', (e) => {
+                    e.respondWith(fetch(e.request).catch(() => new Response('App is running in offline mode.')));
+                });
+            `;
+            const swBlob = new Blob([swCode], {type: 'application/javascript'});
+            navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => console.log('SW Setup Failed', err));
+        }
+        // --- END NEW FEATURES BLOCK ---
+
+        // Check if user is on an Android device to show the Mobile Menu Game Card
+        const isAndroid = /android/i.test(navigator.userAgent || navigator.vendor || window.opera);
+        if (isAndroid) {
+            document.getElementById('androidPromoCard').style.display = 'flex';
+        }
+
+        let count = parseInt(localStorage.getItem('sbg_count')) || 0;
+        let step = parseInt(localStorage.getItem('sbg_step')) || 1;
+        let currentLang = localStorage.getItem('sbg_lang') || 'both';
+        if(currentLang !== 'both' && currentLang !== 'odia') currentLang = 'both';
+        
+        let targetValue = parseInt(localStorage.getItem('sbg_target')) || 0;
+        let activeMode = localStorage.getItem('sbg_mode') || 'number'; 
+
+        // Global variable for Length Check tracking
+        let currentLengthTotal = 0;
+
+        document.getElementById('stepInput').value = step;
+        document.getElementById('langSwitch').value = currentLang;
+        
+        let selectVal = [0, 200, 300, 460, 500].includes(targetValue) ? targetValue : (targetValue > 0 ? 'custom' : 0);
+        document.getElementById('targetSelect').value = selectVal;
+        if(selectVal === 'custom') {
+            document.getElementById('customTargetInput').classList.add('show-custom');
+            document.getElementById('customTargetInput').value = targetValue;
+        }
+
+        const translations = {
+            home: { eng: "Home", odia: "ମୁଖ୍ୟ ପୃଷ୍ଠା" },
+            follow: { eng: "Follow Me", odia: "ଅନୁସରଣ କରନ୍ତୁ" },
+            currentNum: { eng: "Current Number", odia: "ବର୍ତ୍ତମାନର ସଂଖ୍ୟା" },
+            stepLabel: { eng: "Increment Step:", odia: "ବୃଦ୍ଧି ମାତ୍ରା:" },
+            btnIncNum: { eng: "+ Increment Number", odia: "+ ସଂଖ୍ୟା ବୃଦ୍ଧି" },
+            btnDecNum: { eng: "- Decrement Number", odia: "- ସଂଖ୍ୟା ହ୍ରାସ" },
+            btnIncBadge: { eng: "+ Add Badge", odia: "+ ବ୍ୟାଜ୍ ଯୋଗ କରନ୍ତୁ" },
+            btnDecBadge: { eng: "- Remove Badge", odia: "- ବ୍ୟାଜ୍ କାଢ଼ନ୍ତୁ" },
+            btnReset: { eng: "Reset", odia: "ରିସେଟ୍" },
+            badges: { eng: "Total Badges", odia: "ମୋଟ ବ୍ୟାଜ୍" },
+            badgeDesc: { eng: "1 Badge = 6 Increments", odia: "୧ ବ୍ୟାଜ୍ = ୬ ସଂଖ୍ୟା" },
+            targetLabel: { eng: "Set Target:", odia: "ଲକ୍ଷ୍ୟ ସେଟ୍ କରନ୍ତୁ:" },
+            noTarget: { eng: "No Target", odia: "କୌଣସି ଲକ୍ଷ୍ୟ ନାହିଁ" },
+            custom: { eng: "Custom", odia: "କଷ୍ଟମ୍" },
+            remainingText: { eng: "Remaining Count:", odia: "ବାକି ସଂଖ୍ୟା:" },
+            targetReached: { eng: "Target Reached! 🎉", odia: "ଲକ୍ଷ୍ୟ ପୂରଣ ହେଲା! 🎉" },
+            modeNumber: { eng: "Mode: Number Increment", odia: "ମୋଡ୍: ସଂଖ୍ୟା ବୃଦ୍ଧି" },
+            modeBadge: { eng: "Mode: Badge Increment", odia: "ମୋଡ୍: ବ୍ୟାଜ୍ ବୃଦ୍ଧି" },
+            footerCredit: { eng: "by Sandeep Biswal G", odia: "ସନ୍ଦୀପ ବିଶ୍ୱାଳ ଜି ଙ୍କ ଦ୍ଵାରା" },
+            promoTitle: { eng: "Download Plyxo Games", odia: "ଡାଉନଲୋଡ୍ Plyxo Games" },
+            promoSub: { eng: "Where Every Move Matters.", odia: "ଯେଉଁଠି ପ୍ରତିଟି ପଦକ୍ଷେପ ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ।" },
+            // Length Check Translations
+            lengthCheckBtn: { eng: "Length Check", odia: "ଦୈର୍ଘ୍ୟ ଯାଞ୍ଚ" },
+            lengthCheckTitle: { eng: "Fiber Length Check", odia: "ଫାଇବର ଦୈର୍ଘ୍ୟ ଯାଞ୍ଚ" },
+            lcRead1: { eng: "Reading End 1", odia: "ରିଡିଂ ଏଣ୍ଡ୍ ୧" },
+            lcRead2: { eng: "Reading End 2", odia: "ରିଡିଂ ଏଣ୍ଡ୍ ୨" },
+            lcEnd1: { eng: "End 1 Prep (cm)", odia: "ଏଣ୍ଡ୍ ୧ ପ୍ରସ୍ତୁତି (cm)" },
+            lcEnd2: { eng: "End 2 Prep (cm)", odia: "ଏଣ୍ଡ୍ ୨ ପ୍ରସ୍ତୁତି (cm)" },
+            lcCalc: { eng: "Calculate Length", odia: "ଦୈର୍ଘ୍ୟ ହିସାବ କରନ୍ତୁ" },
+            lcClearInputs: { eng: "Clear Inputs", odia: "ଇନପୁଟ୍ ସଫା କରନ୍ତୁ" },
+            lcHistTitle: { eng: "History", odia: "ଇତିହାସ" },
+            lcClear: { eng: "Clear", odia: "ସଫା କରନ୍ତୁ" },
+            lcResultText: { eng: "Result:", odia: "ପରିଣାମ:" },
+            lcViewHistory: { eng: "View History", odia: "ଇତିହାସ ଦେଖନ୍ତୁ" },
+            lcHideHistory: { eng: "Hide History", odia: "ଇତିହାସ ଲୁଚାନ୍ତୁ" },
+            lcBackBtn: { eng: "Back to Num Increment", odia: "Num Increment କୁ ଫେରନ୍ତୁ" }
+        };
+
+        function toOdiaNumeral(num) {
+            const odiaDigits = ['୦', '୧', '୨', '୩', '୪', '୫', '୬', '୭', '୮', '୯'];
+            return num.toString().split('').map(char => {
+                if (char === '-') return '-';
+                return (char >= '0' && char <= '9') ? odiaDigits[parseInt(char)] : char;
+            }).join('');
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('navMenu');
+            const overlay = document.getElementById('mobileOverlay');
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function toggleMode() {
+            activeMode = activeMode === 'number' ? 'badge' : 'number';
+            localStorage.setItem('sbg_mode', activeMode);
+            
+            const rotateIcon = document.getElementById('rotateIcon');
+            rotateIcon.classList.toggle('rotated');
+
+            updateUI();
+        }
+
+        function updateUI() {
+            localStorage.setItem('sbg_count', count);
+            localStorage.setItem('sbg_step', step);
+            localStorage.setItem('sbg_lang', currentLang);
+            localStorage.setItem('sbg_target', targetValue);
+
+            const interactionArea = document.getElementById('interaction-area');
+            const modeTextEl = document.getElementById('modeText');
+            const btnDecText = document.getElementById('btnDecText');
+            const btnIncText = document.getElementById('btnIncText');
+
+            if (activeMode === 'badge') {
+                document.getElementById('anchor-badge').appendChild(interactionArea);
+                modeTextEl.setAttribute('data-key', 'modeBadge');
+                btnDecText.setAttribute('data-key', 'btnDecBadge');
+                btnIncText.setAttribute('data-key', 'btnIncBadge');
+            } else {
+                document.getElementById('anchor-number').appendChild(interactionArea);
+                modeTextEl.setAttribute('data-key', 'modeNumber');
+                btnDecText.setAttribute('data-key', 'btnDecNum');
+                btnIncText.setAttribute('data-key', 'btnIncNum');
+            }
+
+            let badges = Math.floor(count / 6);
+            if (badges < 0) badges = 0; 
+
+            let displayCount = count;
+            let displayBadges = badges;
+            let displayStep = step;
+
+            if (currentLang === 'odia') {
+                displayCount = toOdiaNumeral(count);
+                displayBadges = toOdiaNumeral(badges);
+                displayStep = toOdiaNumeral(step);
+                document.getElementById('stepInput').type = "text";
+                document.getElementById('stepInput').value = displayStep;
+            } else {
+                document.getElementById('stepInput').type = "number";
+                document.getElementById('stepInput').value = step;
+            }
+
+            document.getElementById('countDisplay').innerText = displayCount;
+            document.getElementById('badgeDisplay').innerText = displayBadges;
+            
+            // Updates small text under the badge section with the correct current numerical text
+            document.getElementById('smallTotalDisplay').innerText = `(Total: ${displayCount})`;
+
+            const progressContainer = document.getElementById('progressContainer');
+            if (targetValue > 0) {
+                progressContainer.style.display = 'block';
+                let remaining = targetValue - count;
+                let percentage = (count / targetValue) * 100;
+                if (percentage > 100) percentage = 100;
+                if (percentage < 0) percentage = 0;
+
+                document.getElementById('progressFill').style.width = percentage + '%';
+                document.getElementById('floatProgressFill').style.width = percentage + '%';
+                
+                const statusEl = document.getElementById('progressStatus');
+                const floatStatusEl = document.getElementById('floatRemainingText');
+                
+                if (remaining <= 0) {
+                    statusEl.setAttribute('data-key', 'targetReached');
+                    floatStatusEl.setAttribute('data-key', 'targetReached');
+                    document.body.classList.add('target-reached-bg');
+                } else {
+                    statusEl.setAttribute('data-key', 'remainingText');
+                    floatStatusEl.setAttribute('data-key', 'remainingText');
+                    document.body.classList.remove('target-reached-bg');
+                    
+                    // Directly injecting the dynamic numbers into translations fixes the "Mix" Mode issue 
+                    translations.remainingText.eng = `Remaining Count: <span style="color:var(--md-sys-color-primary)">${remaining}</span>`;
+                    translations.remainingText.odia = `ବାକି ସଂଖ୍ୟା: <span style="color:var(--md-sys-color-primary)">${toOdiaNumeral(remaining)}</span>`;
+                }
+
+                let tDisp = currentLang === 'odia' ? toOdiaNumeral(targetValue) : targetValue;
+                let finalTargetText = `${displayCount} / ${tDisp}`;
+                document.getElementById('targetDisplay').innerText = finalTargetText;
+                document.getElementById('floatTargetDisplay').innerText = finalTargetText;
+
+            } else {
+                progressContainer.style.display = 'none';
+                document.body.classList.remove('target-reached-bg');
+            }
+
+            // Sync dynamic Language for Length Check Result when UI updates
+            updateLengthResultUI();
+
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if(!translations[key]) return;
+
+                if (currentLang === 'both') {
+                    el.innerHTML = `${translations[key].eng}<span class="odia-sub">${translations[key].odia}</span>`;
+                } else if (currentLang === 'odia') {
+                    el.innerHTML = translations[key].odia;
+                }
+            });
+        }
+
+        function changeCount(direction) {
+            let multiplier = activeMode === 'badge' ? 6 : 1;
+            count += (step * multiplier * direction);
+            if(count < 0) count = 0; 
+            updateUI();
+        }
+
+        function resetData() {
+            count = 0;
+            step = 1;
+            updateUI();
+        }
+
+        // --- LENGTH CHECK LOGIC ---
+        function calculateLength() {
+            let r1 = parseFloat(document.getElementById('lc_read1').value) || 0;
+            let r2 = parseFloat(document.getElementById('lc_read2').value) || 0;
+            let e1 = parseFloat(document.getElementById('lc_end1cm').value) || 0;
+            let e2 = parseFloat(document.getElementById('lc_end2cm').value) || 0;
+            
+            // Formula specified: abs(R1 - R2) / 3.28 + (end 1 in cm to meters) + (end 2 in cm to meters)
+            let diff = Math.abs(r1 - r2);
+            let baseMeters = diff / 3.28;
+            
+            // Convert cm to meters (e.g. 150cm / 100 = 1.50m)
+            let e1Meters = e1 / 100;
+            let e2Meters = e2 / 100;
+            
+            currentLengthTotal = baseMeters + e1Meters + e2Meters;
+            
+            updateLengthResultUI();
+            
+            let historyText = currentLengthTotal.toFixed(2) + " m";
+            saveHistory(`R1: ${r1}, R2: ${r2} | Extra: ${e1}cm, ${e2}cm => <strong>${historyText}</strong>`);
+        }
+
+        function clearInputs() {
+            document.getElementById('lc_read1').value = '';
+            document.getElementById('lc_read2').value = '';
+            document.getElementById('lc_end1cm').value = '';
+            document.getElementById('lc_end2cm').value = '';
+            currentLengthTotal = 0;
+            updateLengthResultUI();
+        }
+
+        function updateLengthResultUI() {
+            let resultEng = currentLengthTotal.toFixed(2) + " m";
+            let resultOdia = toOdiaNumeral(currentLengthTotal.toFixed(2)) + " ମିଟର";
+            
+            if (currentLang === 'odia') {
+                document.getElementById('lc_result').innerHTML = resultOdia;
+            } else {
+                // "Mix" mode or English
+                document.getElementById('lc_result').innerHTML = `${resultEng} <span style="font-size: 0.5em; opacity: 0.8; display: block; margin-top: 4px;">(${resultOdia})</span>`;
+            }
+        }
+
+        function toggleLCHistory() {
+            const wrap = document.getElementById('lc_history_wrapper');
+            const btnText = document.getElementById('lc_hist_btn_text');
+            if(wrap.classList.contains('show')) {
+                wrap.classList.remove('show');
+                btnText.setAttribute('data-key', 'lcViewHistory');
+            } else {
+                wrap.classList.add('show');
+                btnText.setAttribute('data-key', 'lcHideHistory');
+            }
+            updateUI(); // re-trigger translation logic for the button text
+        }
+
+        function saveHistory(entry) {
+            let history = JSON.parse(localStorage.getItem('sbg_lc_history')) || [];
+            let timeStr = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            let dateStr = new Date().toLocaleDateString();
+            history.unshift({ time: `${dateStr} ${timeStr}`, text: entry });
+            if(history.length > 30) history.pop(); // keep last 30 calculations
+            localStorage.setItem('sbg_lc_history', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            let history = JSON.parse(localStorage.getItem('sbg_lc_history')) || [];
+            const container = document.getElementById('lc_history');
+            if(history.length === 0) {
+                container.innerHTML = '<div style="padding: 16px; opacity: 0.6; text-align:center; font-style: italic;">No calculations yet</div>';
+                return;
+            }
+            container.innerHTML = history.map(h => 
+                `<div class="history-item">
+                    <div style="font-size:0.75rem; opacity:0.7; margin-bottom: 2px;">${h.time}</div>
+                    <div>${h.text}</div>
+                </div>`
+            ).join('');
+        }
+
+        function clearHistory() {
+            localStorage.removeItem('sbg_lc_history');
+            renderHistory();
+        }
+
+        function handleHashChange() {
+            const modal = document.getElementById('lengthCheckModal');
+            if(window.location.hash === '#lengthcheck') {
+                modal.classList.add('active');
+                renderHistory();
+                updateUI(); // Run translations for the new modal just in case
+                
+                // Ensure mobile menu is hidden when modal opens
+                const menu = document.getElementById('navMenu');
+                const overlay = document.getElementById('mobileOverlay');
+                if (menu.classList.contains('active')) {
+                    menu.classList.remove('active');
+                    overlay.classList.remove('active');
+                }
+            } else {
+                modal.classList.remove('active');
+            }
+        }
+
+        function closeLengthCheck(e) {
+            if(e.target.id === 'lengthCheckModal') {
+                window.location.hash = ''; // Removing the hash will automatically trigger hashchange listener
+            }
+        }
+        
+        window.addEventListener('hashchange', handleHashChange);
+        // --- END LENGTH CHECK LOGIC ---
+
+
+        // Scroll Listeners for Floating Bar and Auto-Hiding Navbar
+        let lastScrollY = window.scrollY;
+        
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            const floatBar = document.getElementById('floatingProgress');
+            const mainNav = document.getElementById('mainNav');
+            
+            // Handle Floating Progress Bar (Now universally responsive and functional on Mobile/Tablet)
+            if(currentScrollY > 150 && targetValue > 0) {
+                floatBar.classList.add('visible');
+            } else {
+                floatBar.classList.remove('visible');
+            }
+
+            // Handle Desktop/Tablet Nav Auto-Hide
+            if (window.innerWidth >= 768) {
+                if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                    // Scrolling Down -> Hide Menu
+                    mainNav.classList.add('nav-hidden');
+                } else {
+                    // Scrolling Up -> Show Menu
+                    mainNav.classList.remove('nav-hidden');
+                }
+            }
+            lastScrollY = currentScrollY;
+        });
+
+        document.getElementById('stepInput').addEventListener('input', function(e) {
+            let val = e.target.value;
+            const odiaMap = {'୦':0, '୧':1, '୨':2, '୩':3, '୪':4, '୫':5, '୬':6, '୭':7, '୮':8, '୯':9};
+            if (currentLang === 'odia') {
+                let parsed = val.split('').map(c => odiaMap[c] !== undefined ? odiaMap[c] : c).join('');
+                step = parseInt(parsed) || 1;
+            } else {
+                step = parseInt(val) || 1;
+            }
+            localStorage.setItem('sbg_step', step);
+        });
+        document.getElementById('stepInput').addEventListener('blur', updateUI);
+
+        document.getElementById('langSwitch').addEventListener('change', function(e) {
+            currentLang = e.target.value;
+            updateUI();
+        });
+
+        document.getElementById('targetSelect').addEventListener('change', function(e) {
+            const val = e.target.value;
+            const customInput = document.getElementById('customTargetInput');
+            if (val === 'custom') {
+                customInput.classList.add('show-custom');
+                targetValue = parseInt(customInput.value) || 0;
+            } else {
+                customInput.classList.remove('show-custom');
+                targetValue = parseInt(val) || 0;
+            }
+            updateUI();
+        });
+
+        document.getElementById('customTargetInput').addEventListener('input', function(e) {
+            targetValue = parseInt(e.target.value) || 0;
+            updateUI();
+        });
+
+        window.addEventListener('load', () => {
+            updateUI();
+            handleHashChange(); // Check hash on initial load
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
