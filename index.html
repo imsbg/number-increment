@@ -175,7 +175,7 @@
         /* Responsive Mobile Menu */
         .mobile-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 1001; opacity: 0; transition: opacity 0.3s;
+            background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; transition: opacity 0.3s;
         }
         .nav-collapse { display: flex; gap: 16px; align-items: center; }
         .nav-btn { text-decoration: none; color: var(--md-sys-color-on-surface); font-weight: 500; padding: 8px 16px; border-radius: 100px; transition: background 0.2s; text-align: center; }
@@ -270,7 +270,7 @@
             transition: background 0.6s;
         }
 
-        /* --- Length Check Full-Screen Desktop Split Modal Styles --- */
+        /* --- Length Check & Converter Modal Styles --- */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center;
@@ -389,13 +389,14 @@
                 <a href="https://imsbg.github.io/" class="nav-btn" target="_blank">
                     <span data-key="home">Home</span>
                 </a>
-                <a href="https://www.instagram.com/sandeepbiswalg" class="nav-btn" target="_blank">
-                    <span data-key="follow">Follow Me</span>
-                </a>
-
-                <!-- New Length Check Button -->
+                
                 <a href="#lengthcheck" class="nav-btn">
                     <span data-key="lengthCheckBtn">Length Check</span>
+                </a>
+
+                <!-- New Length Converter Button -->
+                <a href="#converter" class="nav-btn">
+                    <span data-key="converterBtn">Length Converter</span>
                 </a>
 
                 <select id="langSwitch">
@@ -412,8 +413,7 @@
                     <div class="promo-sub" data-key="promoSub">Where Every Move Matters.</div>
                     <div class="promo-btn">Get It Now</div>
                 </a>
-                
-                </div>
+            </div>
         </div>
     </nav>
 
@@ -492,8 +492,8 @@
         </div>
     </div>
 
-    <!-- Fiber Length Check Modal (Full Screen & Split Layout) -->
-    <div id="lengthCheckModal" class="modal-overlay" onclick="closeLengthCheck(event)">
+    <!-- Fiber Length Check Modal -->
+    <div id="lengthCheckModal" class="modal-overlay" onclick="closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="window.location.hash=''">✕</button>
             
@@ -505,32 +505,33 @@
                         <span data-key="lengthCheckTitle">Fiber Length Check</span>
                     </h2>
                     
+                    <!-- Added oninput for live calculation -->
                     <div>
                         <label data-key="lcRead1">Reading End 1</label>
-                        <input type="number" id="lc_read1" class="styled-input" placeholder="e.g. 1500">
+                        <input type="number" id="lc_read1" class="styled-input" placeholder="e.g. 1500" oninput="calculateLengthLive()">
                     </div>
                     
                     <div>
                         <label data-key="lcRead2">Reading End 2</label>
-                        <input type="number" id="lc_read2" class="styled-input" placeholder="e.g. 1000">
+                        <input type="number" id="lc_read2" class="styled-input" placeholder="e.g. 1000" oninput="calculateLengthLive()">
                     </div>
                     
                     <div>
                         <label data-key="lcEnd1">End 1 Preparation (cm)</label>
-                        <input type="number" id="lc_end1cm" class="styled-input" placeholder="e.g. 150">
+                        <input type="number" id="lc_end1cm" class="styled-input" placeholder="e.g. 150" oninput="calculateLengthLive()">
                     </div>
                     
                     <div>
                         <label data-key="lcEnd2">End 2 Preparation (cm)</label>
-                        <input type="number" id="lc_end2cm" class="styled-input" placeholder="e.g. 150">
+                        <input type="number" id="lc_end2cm" class="styled-input" placeholder="e.g. 150" oninput="calculateLengthLive()">
                     </div>
                     
                     <div style="display: flex; gap: 12px; margin-top: 16px;">
                         <button class="btn-dec" style="flex: 1; padding: 12px; font-size: 1rem;" onclick="clearInputs()">
                             <span data-key="lcClearInputs">Clear Inputs</span>
                         </button>
-                        <button class="btn-inc" style="flex: 1; padding: 12px; font-size: 1rem;" onclick="calculateLength()">
-                            <span data-key="lcCalc">Calculate Length</span>
+                        <button class="btn-inc" style="flex: 1; padding: 12px; font-size: 1rem;" onclick="saveLengthToHistory()">
+                            <span data-key="lcSave">Save to History</span>
                         </button>
                     </div>
                 </div>
@@ -566,6 +567,63 @@
         </div>
     </div>
 
+    <!-- NEW Length Converter Modal -->
+    <div id="converterModal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="window.location.hash=''">✕</button>
+            
+            <div class="lc-layout">
+                <!-- Left Side: Inputs -->
+                <div class="lc-left">
+                    <h2 style="margin-bottom: 16px; margin-top: 0; color: var(--md-sys-color-primary); display: flex; align-items: center; gap: 8px;">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        <span data-key="convTitle">Length Converter</span>
+                    </h2>
+                    
+                    <div>
+                        <label data-key="convInput">Enter Value</label>
+                        <input type="number" id="conv_input" class="styled-input" placeholder="e.g. 100" oninput="convertLengthLive()" value="1">
+                    </div>
+                    
+                    <div>
+                        <label data-key="convFrom">From Unit</label>
+                        <select id="conv_from" class="styled-input" onchange="convertLengthLive()">
+                            <option value="m">Meter (m)</option>
+                            <option value="cm">Centimeter (cm)</option>
+                            <option value="mm">Millimeter (mm)</option>
+                            <option value="in">Inch (in)</option>
+                            <option value="ft">Feet (ft)</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label data-key="convTo">To Unit</label>
+                        <select id="conv_to" class="styled-input" onchange="convertLengthLive()">
+                            <option value="cm">Centimeter (cm)</option>
+                            <option value="m">Meter (m)</option>
+                            <option value="mm">Millimeter (mm)</option>
+                            <option value="in">Inch (in)</option>
+                            <option value="ft">Feet (ft)</option>
+                        </select>
+                    </div>
+                    
+                </div>
+
+                <!-- Right Side: Result -->
+                <div class="lc-right">
+                    <div style="width: 100%; font-size: 1.5rem; font-weight: bold; text-align: center; background: var(--md-sys-color-secondary-container); padding: 32px 16px; border-radius: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                        <span data-key="lcResultText" style="color: var(--md-sys-color-on-surface); display:block; font-size: 1.1rem; opacity:0.8; margin-bottom: 8px;">Result:</span> 
+                        <span id="conv_result" style="color: var(--md-sys-color-primary); font-size: 2.2rem; word-break: break-word;">100 cm</span>
+                    </div>
+
+                    <button class="btn-dec" style="width: 100%; padding: 14px; margin-top: auto; font-size: 1.1rem; background-color: var(--md-sys-color-surface-variant);" onclick="window.location.hash=''">
+                        <span data-key="lcBackBtn">Back to Num Increment</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <a href="https://play.google.com/store/apps/details?id=in.sandeep.plyxogames" target="_blank" class="promo-card" style="max-width: 600px;">
             <div class="promo-title" data-key="promoTitle">Download Plyxo Games</div>
@@ -582,10 +640,9 @@
         // --- NEW FEATURES BLOCK (Theme & PWA) ---
         
         function applyTimeBasedTheme() {
-            if (localStorage.getItem('sbg_theme_override')) return; // Skip if user manually chose
+            if (localStorage.getItem('sbg_theme_override')) return; 
             const hour = new Date().getHours();
             const themeBtn = document.getElementById('themeToggleText');
-            // 6 AM (6) to 5:59 PM (17) is Light Mode. Otherwise Dark.
             if (hour >= 6 && hour < 18) {
                 document.body.classList.remove('dark-theme');
                 if(themeBtn) themeBtn.innerText = '🌙 Dark';
@@ -643,9 +700,7 @@
             const swBlob = new Blob([swCode], {type: 'application/javascript'});
             navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => console.log('SW Setup Failed', err));
         }
-        // --- END NEW FEATURES BLOCK ---
 
-        // Check if user is on an Android device to show the Mobile Menu Game Card
         const isAndroid = /android/i.test(navigator.userAgent || navigator.vendor || window.opera);
         if (isAndroid) {
             document.getElementById('androidPromoCard').style.display = 'flex';
@@ -659,7 +714,6 @@
         let targetValue = parseInt(localStorage.getItem('sbg_target')) || 0;
         let activeMode = localStorage.getItem('sbg_mode') || 'number'; 
 
-        // Global variable for Length Check tracking
         let currentLengthTotal = 0;
 
         document.getElementById('stepInput').value = step;
@@ -694,6 +748,7 @@
             footerCredit: { eng: "by Sandeep Biswal G", odia: "ସନ୍ଦୀପ ବିଶ୍ୱାଳ ଜି ଙ୍କ ଦ୍ଵାରା" },
             promoTitle: { eng: "Download Plyxo Games", odia: "ଡାଉନଲୋଡ୍ Plyxo Games" },
             promoSub: { eng: "Where Every Move Matters.", odia: "ଯେଉଁଠି ପ୍ରତିଟି ପଦକ୍ଷେପ ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ।" },
+            
             // Length Check Translations
             lengthCheckBtn: { eng: "Length Check", odia: "ଦୈର୍ଘ୍ୟ ଯାଞ୍ଚ" },
             lengthCheckTitle: { eng: "Fiber Length Check", odia: "ଫାଇବର ଦୈର୍ଘ୍ୟ ଯାଞ୍ଚ" },
@@ -701,20 +756,28 @@
             lcRead2: { eng: "Reading End 2", odia: "ରିଡିଂ ଏଣ୍ଡ୍ ୨" },
             lcEnd1: { eng: "End 1 Prep (cm)", odia: "ଏଣ୍ଡ୍ ୧ ପ୍ରସ୍ତୁତି (cm)" },
             lcEnd2: { eng: "End 2 Prep (cm)", odia: "ଏଣ୍ଡ୍ ୨ ପ୍ରସ୍ତୁତି (cm)" },
-            lcCalc: { eng: "Calculate Length", odia: "ଦୈର୍ଘ୍ୟ ହିସାବ କରନ୍ତୁ" },
+            lcSave: { eng: "Save to History", odia: "ଇତିହାସରେ ସେଭ୍ କରନ୍ତୁ" },
             lcClearInputs: { eng: "Clear Inputs", odia: "ଇନପୁଟ୍ ସଫା କରନ୍ତୁ" },
             lcHistTitle: { eng: "History", odia: "ଇତିହାସ" },
             lcClear: { eng: "Clear", odia: "ସଫା କରନ୍ତୁ" },
             lcResultText: { eng: "Result:", odia: "ପରିଣାମ:" },
             lcViewHistory: { eng: "View History", odia: "ଇତିହାସ ଦେଖନ୍ତୁ" },
             lcHideHistory: { eng: "Hide History", odia: "ଇତିହାସ ଲୁଚାନ୍ତୁ" },
-            lcBackBtn: { eng: "Back to Num Increment", odia: "Num Increment କୁ ଫେରନ୍ତୁ" }
+            lcBackBtn: { eng: "Back to Num Increment", odia: "Num Increment କୁ ଫେରନ୍ତୁ" },
+            
+            // New Converter Translations
+            converterBtn: { eng: "Length Converter", odia: "ଦୈର୍ଘ୍ୟ କନଭର୍ଟର" },
+            convTitle: { eng: "Length Converter", odia: "ଦୈର୍ଘ୍ୟ କନଭର୍ଟର" },
+            convInput: { eng: "Enter Value", odia: "ମୂଲ୍ୟ ଲେଖନ୍ତୁ" },
+            convFrom: { eng: "From Unit", odia: "ରୁ (ୟୁନିଟ୍)" },
+            convTo: { eng: "କୁ (ୟୁନିଟ୍)", odia: "କୁ (ୟୁନିଟ୍)" } // Fixed typo for consistency
         };
 
         function toOdiaNumeral(num) {
             const odiaDigits = ['୦', '୧', '୨', '୩', '୪', '୫', '୬', '୭', '୮', '୯'];
             return num.toString().split('').map(char => {
                 if (char === '-') return '-';
+                if (char === '.') return '.';
                 return (char >= '0' && char <= '9') ? odiaDigits[parseInt(char)] : char;
             }).join('');
         }
@@ -724,6 +787,15 @@
             const overlay = document.getElementById('mobileOverlay');
             menu.classList.toggle('active');
             overlay.classList.toggle('active');
+        }
+        
+        function closeMobileMenu() {
+            const menu = document.getElementById('navMenu');
+            const overlay = document.getElementById('mobileOverlay');
+            if (menu.classList.contains('active')) {
+                menu.classList.remove('active');
+                overlay.classList.remove('active');
+            }
         }
 
         function toggleMode() {
@@ -780,7 +852,6 @@
             document.getElementById('countDisplay').innerText = displayCount;
             document.getElementById('badgeDisplay').innerText = displayBadges;
             
-            // Updates small text under the badge section with the correct current numerical text
             document.getElementById('smallTotalDisplay').innerText = `(Total: ${displayCount})`;
 
             const progressContainer = document.getElementById('progressContainer');
@@ -806,7 +877,6 @@
                     floatStatusEl.setAttribute('data-key', 'remainingText');
                     document.body.classList.remove('target-reached-bg');
                     
-                    // Directly injecting the dynamic numbers into translations fixes the "Mix" Mode issue 
                     translations.remainingText.eng = `Remaining Count: <span style="color:var(--md-sys-color-primary)">${remaining}</span>`;
                     translations.remainingText.odia = `ବାକି ସଂଖ୍ୟା: <span style="color:var(--md-sys-color-primary)">${toOdiaNumeral(remaining)}</span>`;
                 }
@@ -821,8 +891,9 @@
                 document.body.classList.remove('target-reached-bg');
             }
 
-            // Sync dynamic Language for Length Check Result when UI updates
+            // Sync dynamic texts
             updateLengthResultUI();
+            convertLengthLive();
 
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
@@ -849,25 +920,31 @@
             updateUI();
         }
 
-        // --- LENGTH CHECK LOGIC ---
-        function calculateLength() {
+        // --- LENGTH CHECK LOGIC (LIVE UPDATE) ---
+        function calculateLengthLive() {
             let r1 = parseFloat(document.getElementById('lc_read1').value) || 0;
             let r2 = parseFloat(document.getElementById('lc_read2').value) || 0;
             let e1 = parseFloat(document.getElementById('lc_end1cm').value) || 0;
             let e2 = parseFloat(document.getElementById('lc_end2cm').value) || 0;
             
-            // Formula specified: abs(R1 - R2) / 3.28 + (end 1 in cm to meters) + (end 2 in cm to meters)
             let diff = Math.abs(r1 - r2);
             let baseMeters = diff / 3.28;
-            
-            // Convert cm to meters (e.g. 150cm / 100 = 1.50m)
             let e1Meters = e1 / 100;
             let e2Meters = e2 / 100;
             
             currentLengthTotal = baseMeters + e1Meters + e2Meters;
-            
             updateLengthResultUI();
-            
+        }
+
+        function saveLengthToHistory() {
+            calculateLengthLive(); // ensure it's up to date
+            if (currentLengthTotal === 0) return; // Optional check to not save empty data
+
+            let r1 = parseFloat(document.getElementById('lc_read1').value) || 0;
+            let r2 = parseFloat(document.getElementById('lc_read2').value) || 0;
+            let e1 = parseFloat(document.getElementById('lc_end1cm').value) || 0;
+            let e2 = parseFloat(document.getElementById('lc_end2cm').value) || 0;
+
             let historyText = currentLengthTotal.toFixed(2) + " m";
             saveHistory(`R1: ${r1}, R2: ${r2} | Extra: ${e1}cm, ${e2}cm => <strong>${historyText}</strong>`);
         }
@@ -888,11 +965,45 @@
             if (currentLang === 'odia') {
                 document.getElementById('lc_result').innerHTML = resultOdia;
             } else {
-                // "Mix" mode or English
                 document.getElementById('lc_result').innerHTML = `${resultEng} <span style="font-size: 0.5em; opacity: 0.8; display: block; margin-top: 4px;">(${resultOdia})</span>`;
             }
         }
 
+        // --- NEW: LENGTH CONVERTER LOGIC (LIVE) ---
+        const conversionRatesToMeters = {
+            'mm': 0.001,
+            'cm': 0.01,
+            'm': 1,
+            'in': 0.0254,
+            'ft': 0.3048
+        };
+
+        function convertLengthLive() {
+            let val = parseFloat(document.getElementById('conv_input').value);
+            if (isNaN(val)) val = 0;
+
+            let fromUnit = document.getElementById('conv_from').value;
+            let toUnit = document.getElementById('conv_to').value;
+            
+            // Convert to meters base first
+            let meters = val * conversionRatesToMeters[fromUnit];
+            // Convert to target unit
+            let result = meters / conversionRatesToMeters[toUnit];
+            
+            // Clean up long floats (max 4 decimal places unless exact)
+            let resultStr = parseFloat(result.toFixed(4)).toString();
+            
+            let resultEng = `${resultStr} ${toUnit}`;
+            let resultOdia = `${toOdiaNumeral(resultStr)} ${toUnit}`;
+            
+            if (currentLang === 'odia') {
+                document.getElementById('conv_result').innerHTML = resultOdia;
+            } else {
+                document.getElementById('conv_result').innerHTML = `${resultEng} <span style="font-size: 0.5em; opacity: 0.8; display: block; margin-top: 4px;">(${resultOdia})</span>`;
+            }
+        }
+
+        // --- HISTORY LOGIC ---
         function toggleLCHistory() {
             const wrap = document.getElementById('lc_history_wrapper');
             const btnText = document.getElementById('lc_hist_btn_text');
@@ -903,7 +1014,7 @@
                 wrap.classList.add('show');
                 btnText.setAttribute('data-key', 'lcHideHistory');
             }
-            updateUI(); // re-trigger translation logic for the button text
+            updateUI(); 
         }
 
         function saveHistory(entry) {
@@ -911,7 +1022,7 @@
             let timeStr = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             let dateStr = new Date().toLocaleDateString();
             history.unshift({ time: `${dateStr} ${timeStr}`, text: entry });
-            if(history.length > 30) history.pop(); // keep last 30 calculations
+            if(history.length > 30) history.pop(); 
             localStorage.setItem('sbg_lc_history', JSON.stringify(history));
             renderHistory();
         }
@@ -936,36 +1047,37 @@
             renderHistory();
         }
 
+        // --- MODAL ROUTING (HASH CHANGES) ---
         function handleHashChange() {
-            const modal = document.getElementById('lengthCheckModal');
+            const lcModal = document.getElementById('lengthCheckModal');
+            const convModal = document.getElementById('converterModal');
+            
+            lcModal.classList.remove('active');
+            convModal.classList.remove('active');
+
             if(window.location.hash === '#lengthcheck') {
-                modal.classList.add('active');
+                lcModal.classList.add('active');
                 renderHistory();
-                updateUI(); // Run translations for the new modal just in case
-                
-                // Ensure mobile menu is hidden when modal opens
-                const menu = document.getElementById('navMenu');
-                const overlay = document.getElementById('mobileOverlay');
-                if (menu.classList.contains('active')) {
-                    menu.classList.remove('active');
-                    overlay.classList.remove('active');
-                }
-            } else {
-                modal.classList.remove('active');
+                updateUI(); 
+                closeMobileMenu();
+            } else if (window.location.hash === '#converter') {
+                convModal.classList.add('active');
+                convertLengthLive(); // init conversion UI
+                updateUI();
+                closeMobileMenu();
             }
         }
 
-        function closeLengthCheck(e) {
-            if(e.target.id === 'lengthCheckModal') {
-                window.location.hash = ''; // Removing the hash will automatically trigger hashchange listener
+        function closeModal(e) {
+            if(e.target.classList.contains('modal-overlay')) {
+                window.location.hash = ''; 
             }
         }
         
         window.addEventListener('hashchange', handleHashChange);
-        // --- END LENGTH CHECK LOGIC ---
 
 
-        // Scroll Listeners for Floating Bar and Auto-Hiding Navbar
+        // --- SCROLL LISTENERS ---
         let lastScrollY = window.scrollY;
         
         window.addEventListener('scroll', () => {
@@ -973,20 +1085,16 @@
             const floatBar = document.getElementById('floatingProgress');
             const mainNav = document.getElementById('mainNav');
             
-            // Handle Floating Progress Bar (Now universally responsive and functional on Mobile/Tablet)
             if(currentScrollY > 150 && targetValue > 0) {
                 floatBar.classList.add('visible');
             } else {
                 floatBar.classList.remove('visible');
             }
 
-            // Handle Desktop/Tablet Nav Auto-Hide
             if (window.innerWidth >= 768) {
                 if (currentScrollY > lastScrollY && currentScrollY > 100) {
-                    // Scrolling Down -> Hide Menu
                     mainNav.classList.add('nav-hidden');
                 } else {
-                    // Scrolling Up -> Show Menu
                     mainNav.classList.remove('nav-hidden');
                 }
             }
