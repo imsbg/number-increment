@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-
     <!-- Professional SEO Optimization -->
     <meta name="description" content="Num Increment by Sandeep Biswal G is a highly customized, responsive counter, badge tracker, length converter, and calculator utility app available in Odia and English.">
     <meta name="keywords" content="Num Increment, Number Increment, Sandeep Biswal G, Counter App, Odia, Android Developer, Utility, Badge Tracker, Plyxo Games, Goa Commscope, Fiber Length Check, Online Calculator, Odia Bhasa App">
@@ -42,7 +41,6 @@
             --border-radius: 24px;
         }
 
-        /* --- New Dark Mode Feature CSS --- */
         body.dark-theme {
             --md-sys-color-primary: #a8c7fa;
             --md-sys-color-on-primary: #062e6f;
@@ -64,32 +62,13 @@
             border-color: #555;
         }
 
-        body.dark-theme .mobile-overlay {
-            background: rgba(255,255,255,0.1);
-        }
-
-        body.dark-theme .promo-card {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        body.dark-theme.target-reached-bg {
-            background: linear-gradient(135deg, #2b580c 0%, #174b21 100%);
-        }
-
-        body.dark-theme .modal-content {
-            background: var(--md-sys-color-background);
-            color: var(--md-sys-color-on-surface);
-        }
+        body.dark-theme .mobile-overlay { background: rgba(255,255,255,0.1); }
+        body.dark-theme .promo-card { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.1); }
+        body.dark-theme.target-reached-bg { background: linear-gradient(135deg, #2b580c 0%, #174b21 100%); }
+        body.dark-theme .modal-content { background: var(--md-sys-color-background); color: var(--md-sys-color-on-surface); }
         body.dark-theme .history-item { border-bottom: 1px solid rgba(255,255,255,0.1); }
-        /* --- End Dark Mode CSS --- */
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Google Sans', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Google Sans', sans-serif; }
 
         body {
             background-color: var(--md-sys-color-background);
@@ -97,13 +76,12 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            transition: background 0.6s ease-in-out, color 0.6s ease-in-out; 
+            padding-top: 0; 
+            transition: padding-top 0.4s ease, background 0.6s ease-in-out, color 0.6s ease-in-out; 
         }
 
-        /* Eye-catchy Success Background */
-        body.target-reached-bg {
-            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
-        }
+        body.target-active { padding-top: 64px; }
+        body.target-reached-bg { background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%); }
 
         /* Loading Screen */
         #loader {
@@ -116,64 +94,48 @@
         #loader h1 { color: var(--md-sys-color-on-primary-container); margin-bottom: 16px; font-size: 2.5rem; }
         #loader h2 { color: var(--md-sys-color-primary); font-weight: 500; font-size: 1.5rem;}
         .loader-footer { padding: 24px; font-weight: 500; color: var(--md-sys-color-on-primary-container); opacity: 0.8; }
-
-        .odia-sub { display: block; font-size: 0.85em; opacity: 0.8; margin-top: 4px; }
-
-        /* Navigation (Floating Desktop Header) */
-        nav { 
-            background-color: var(--md-sys-color-surface); 
-            padding: 16px 24px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
-            position: sticky; 
-            top: 0;
-            z-index: 1000;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.6s;
-        }
         
-        @media (min-width: 768px) {
-            nav {
-                margin: 24px auto 0 auto;
-                border-radius: 100px;
-                max-width: 1200px;
-                width: calc(100% - 48px);
-                top: 24px;
-            }
-            nav.nav-hidden {
-                transform: translateY(-150px);
-            }
-        }
-
-        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
-        .nav-brand { font-weight: 700; font-size: 1.2rem; color: var(--md-sys-color-primary); }
-
-        .menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: var(--md-sys-color-on-surface); cursor: pointer; padding: 8px; }
+        /* FIX: Extra padding and line-height for Odia bottom vowels */
+        .odia-sub { display: block; font-size: 0.85em; opacity: 0.8; margin-top: 4px; line-height: 1.5; padding-bottom: 6px; }
 
         /* Floating Progress Bar */
         #floatingProgress {
             position: fixed; top: -100px; left: 0; width: 100%;
             background: var(--md-sys-color-surface);
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 12px 24px; z-index: 900;
-            transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.6s;
+            padding: 12px 24px; z-index: 1100;
+            transition: top 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.6s;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
-        #floatingProgress.visible { top: 0; }
+        body.target-active #floatingProgress { top: 0; }
         .float-info { display: flex; justify-content: space-between; width: 100%; max-width: 600px; margin-bottom: 8px; font-weight: 600; }
-        
-        /* Progress Bar Gradient & Rounded Corners */
-        .float-bar-bg { 
-            width: 100%; max-width: 600px; height: 10px; 
-            background: var(--md-sys-color-surface-variant); 
-            border-radius: 20px; overflow: hidden; 
+        .float-bar-bg { width: 100%; max-width: 600px; height: 10px; background: var(--md-sys-color-surface-variant); border-radius: 20px; overflow: hidden; }
+        .float-bar-fill { height: 100%; background: linear-gradient(90deg, var(--md-sys-color-primary), #001a41); border-radius: 20px; transition: width 0.3s ease; }
+
+        /* Navigation */
+        nav { 
+            background-color: var(--md-sys-color-surface); 
+            padding: 16px 24px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+            position: sticky; 
+            top: 16px; 
+            z-index: 1000;
+            transition: top 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.6s;
         }
-        .float-bar-fill { 
-            height: 100%; 
-            background: linear-gradient(90deg, var(--md-sys-color-primary), #001a41);
-            border-radius: 20px;
-            transition: width 0.3s ease; 
+        body.target-active nav { top: 80px; }
+        
+        @media (min-width: 768px) {
+            nav {
+                margin: 24px auto 0 auto; border-radius: 100px;
+                max-width: 1200px; width: calc(100% - 48px);
+            }
+            nav.nav-hidden { transform: translateY(-150px); }
         }
 
-        /* Responsive Mobile Menu */
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+        .nav-brand { font-weight: 700; font-size: 1.2rem; color: var(--md-sys-color-primary); }
+        .menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: var(--md-sys-color-on-surface); cursor: pointer; padding: 8px; }
+
         .mobile-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; transition: opacity 0.3s;
@@ -190,7 +152,6 @@
 
         main { flex: 1; padding: 24px; max-width: 1200px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 24px; }
 
-        /* Plyxo Games Promo Card */
         .promo-card {
             background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
             color: #ffffff; border-radius: var(--border-radius); padding: 20px;
@@ -201,13 +162,7 @@
         .promo-title { font-size: 1.2rem; font-weight: 700; }
         .promo-sub { font-size: 0.9rem; opacity: 0.9; }
         .promo-btn { background: #ffffff; color: #001a41; padding: 8px 24px; border-radius: 100px; font-weight: 700; font-size: 0.9rem; border: none; cursor: pointer; }
-
-        /* Fallback dark promo card for mobile menu since mobile menu is light themed */
-        .nav-collapse .promo-card {
-            background: linear-gradient(135deg, #001a41, #005ac1);
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(0, 90, 193, 0.2);
-        }
+        .nav-collapse .promo-card { background: linear-gradient(135deg, #001a41, #005ac1); color: #ffffff; box-shadow: 0 4px 12px rgba(0, 90, 193, 0.2); }
 
         .top-actions { display: flex; justify-content: center; width: 100%; }
         .btn-switch-mode {
@@ -215,33 +170,67 @@
             border: none; padding: 12px 24px; border-radius: 100px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        /* SVG Rotate Icon Animation */
         #rotateIcon { transition: transform 0.4s ease; fill: currentColor; }
         .rotated { transform: rotate(180deg); }
 
         .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-
         .card {
             background-color: var(--md-sys-color-surface); border-radius: var(--border-radius); padding: 32px;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
             display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border: 1px solid var(--md-sys-color-surface-variant); position: relative;
             transition: background-color 0.6s;
         }
-
         .number-display { font-size: 5rem; font-weight: 700; color: var(--md-sys-color-primary); margin: 16px 0; word-break: break-all; }
-
+        
         #interaction-area { display: flex; flex-direction: column; align-items: center; margin-top: 16px; width: 100%; }
-        .controls { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; justify-content: center; }
-
-        button { border: none; padding: 16px 32px; border-radius: 100px; font-size: 1.15rem; font-weight: 600; cursor: pointer; transition: transform 0.1s, opacity 0.2s, background-color 0.6s, color 0.6s; display: flex; flex-direction: column; align-items: center; }
-        button:active { transform: scale(0.95); }
+        
+        .controls { display: flex; gap: 24px; margin-bottom: 16px; justify-content: center; align-items: center; }
+        
+        .control-btn {
+            border: none; border-radius: 100px; font-size: 2.2rem; font-weight: 700;
+            cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; align-items: center; justify-content: center;
+            height: 70px; min-width: 70px; padding: 0 24px;
+        }
+        .control-btn:active { transform: scale(0.92); }
+        .control-btn .icon { line-height: 1; margin-top: -4px; }
+        
+        .control-btn .btn-text {
+            max-width: 0; opacity: 0; overflow: hidden;
+            font-size: 1.1rem; font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap; display: flex; flex-direction: column; align-items: flex-start;
+            /* FIX: Prevents Odia matras (bottom vowels) from being cut off */
+            line-height: 1.5; padding-bottom: 8px; margin-bottom: -8px;
+        }
+        
+        @media (hover: hover) {
+            .control-btn:hover { padding: 0 32px; }
+            .control-btn:hover .btn-text { max-width: 200px; opacity: 1; margin-left: 12px; }
+        }
 
         .btn-inc { background-color: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); }
         .btn-dec { background-color: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-surface); }
-        .btn-reset { background-color: var(--md-sys-color-error); color: var(--md-sys-color-on-error); padding: 12px 24px; margin-top: auto;}
+        .btn-reset { background-color: var(--md-sys-color-error); color: var(--md-sys-color-on-error); padding: 12px 24px; margin-top: auto; border:none; border-radius:100px; font-weight: 600; cursor:pointer;}
 
-        .step-control { display: flex; align-items: center; gap: 12px; background: var(--md-sys-color-surface-variant); padding: 8px 16px; border-radius: 100px; margin-bottom: 24px; transition: background-color 0.6s; }
+        /* Stepper & Input Controls */
+        .step-control { display: flex; align-items: center; gap: 12px; background: var(--md-sys-color-surface-variant); padding: 8px 16px; border-radius: 100px; margin-bottom: 24px; transition: background-color 0.6s; flex-wrap: wrap; justify-content: center; }
         .step-control input { color: var(--md-sys-color-on-surface); width: 60px; border: none; background: transparent; font-size: 1.2rem; font-weight: bold; text-align: center; outline: none; font-family: 'Google Sans', sans-serif; transition: color 0.6s; }
+        
+        .stepper-group { display: flex; align-items: center; gap: 4px; }
+        .stepper-btn {
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-primary);
+            border: none; border-radius: 50%;
+            width: 32px; height: 32px; min-height: 32px; padding: 0;
+            font-size: 1.4rem; font-weight: bold;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.1s, background 0.3s;
+            flex-shrink: 0;
+        }
+        .stepper-btn:hover { background: var(--md-sys-color-primary-container); }
+        .stepper-btn:active { transform: scale(0.85); }
 
         .svg-badge { width: 80px; height: 80px; fill: var(--md-sys-color-primary); margin-bottom: 8px; }
 
@@ -251,27 +240,18 @@
         .target-progress-bg { background: var(--md-sys-color-surface-variant); height: 16px; border-radius: 8px; width: 100%; overflow: hidden; position: relative; }
         .target-progress-fill { background: var(--md-sys-color-primary); height: 100%; width: 0%; transition: width 0.3s ease, background-color 0.3s ease; }
         .target-info { display: flex; justify-content: space-between; margin-top: 8px; font-weight: 600; }
-        
         .custom-target-input { display: none; margin-left: 8px; width: 100px; }
         .show-custom { display: inline-block !important; }
 
-        /* Modern Gradient Rounded Footer */
         footer { 
-            padding: 40px 24px 32px 24px; 
-            text-align: center; 
+            padding: 40px 24px 32px 24px; text-align: center; 
             background: linear-gradient(135deg, #001a41, var(--md-sys-color-primary));
-            color: #ffffff;
-            border-top-left-radius: 40px; 
-            border-top-right-radius: 40px; 
-            margin-top: 40px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center;
-            box-shadow: 0 -4px 16px rgba(0,0,0,0.1);
-            transition: background 0.6s;
+            color: #ffffff; border-top-left-radius: 40px; border-top-right-radius: 40px; 
+            margin-top: 40px; display: flex; flex-direction: column; align-items: center;
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.1); transition: background 0.6s;
         }
 
-        /* --- Length Check & Converter Modal Styles --- */
+        /* Modal Styles */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center;
@@ -279,62 +259,40 @@
         }
         .modal-overlay.active { display: flex; }
         .modal-content {
-            background: var(--md-sys-color-background);
-            color: var(--md-sys-color-on-surface);
-            width: 100vw; height: 100vh;
-            position: relative; display: flex; justify-content: center; align-items: center;
-            overflow: hidden; /* Prevents global scrolling in desktop */
+            background: var(--md-sys-color-background); color: var(--md-sys-color-on-surface);
+            width: 100vw; height: 100vh; position: relative; display: flex; justify-content: center; align-items: center; overflow: hidden;
         }
-        
-        .lc-layout {
-            display: flex; flex-direction: column; width: 100%; max-width: 1100px;
-            height: 100%; padding: 24px; box-sizing: border-box; overflow-y: auto; /* Scrollable on mobile */
-        }
-        
+        .lc-layout { display: flex; flex-direction: column; width: 100%; max-width: 1100px; height: 100%; padding: 24px; box-sizing: border-box; overflow-y: auto; }
         .lc-left, .lc-right { display: flex; flex-direction: column; width: 100%; gap: 12px; }
         .lc-right { align-items: center; margin-top: 32px; gap: 16px; }
-
         .modal-close {
-            position: absolute; top: 20px; right: 24px;
-            background: var(--md-sys-color-surface-variant); border: none; border-radius: 50%; width: 36px; height: 36px;
-            cursor: pointer; display: flex; justify-content: center; align-items: center;
-            color: var(--md-sys-color-on-surface); font-weight: bold; font-size: 1.2rem; padding: 0; z-index: 10;
+            position: absolute; top: 20px; right: 24px; background: var(--md-sys-color-surface-variant); border: none; border-radius: 50%; width: 36px; height: 36px;
+            cursor: pointer; display: flex; justify-content: center; align-items: center; color: var(--md-sys-color-on-surface); font-weight: bold; font-size: 1.2rem; padding: 0; z-index: 10;
         }
-
         .lc-layout .styled-input { width: 100%; margin-bottom: 8px; margin-top: 4px; box-sizing: border-box; }
         .lc-layout label { font-size: 0.9rem; font-weight: 600; opacity: 0.9; margin-left: 8px; display: block; }
-        
         .btn-outline {
             background: transparent; color: var(--md-sys-color-primary); border: 2px solid var(--md-sys-color-primary);
             padding: 12px 24px; border-radius: 100px; font-weight: 600; cursor: pointer; width: 100%; text-align: center;
             transition: background 0.3s, color 0.3s; font-size: 1.1rem;
         }
         .btn-outline:hover { background: var(--md-sys-color-primary-container); }
-
         .history-wrapper {
-            display: none; width: 100%; flex-direction: column; flex: 1;
-            background: var(--md-sys-color-surface-variant); border-radius: 16px; padding: 12px;
+            display: none; width: 100%; flex-direction: column; flex: 1; background: var(--md-sys-color-surface-variant); border-radius: 16px; padding: 12px;
             overflow-y: auto; max-height: 250px; box-sizing: border-box;
         }
         .history-wrapper.show { display: flex; }
         .history-item { font-size: 0.9rem; padding: 8px; border-bottom: 1px solid rgba(0,0,0,0.05); }
         .history-item:last-child { border-bottom: none; }
 
-        /* Desktop specific layout */
         @media (min-width: 768px) {
-            .lc-layout {
-                flex-direction: row; align-items: center; justify-content: center;
-                gap: 64px; overflow: hidden; height: auto; max-height: 90vh; /* No page scroll */
-            }
+            .lc-layout { flex-direction: row; align-items: center; justify-content: center; gap: 64px; overflow: hidden; height: auto; max-height: 90vh; }
             .lc-left { flex: 1; max-width: 450px; justify-content: center; }
             .lc-right { flex: 1; max-width: 450px; margin-top: 0; justify-content: center; }
-            .modal-close { display: none; } /* Hide 'x' on desktop, we use Back button */
-            
-            /* Enhanced floating bar specifically optimized for Mobile/Tablet */
+            .modal-close { display: none; } 
             #floatingProgress { padding: 12px 16px; }
         }
 
-        /* Responsive Mobile Breakpoints */
         @media (max-width: 768px) {
             .menu-toggle { display: block; }
             .nav-collapse {
@@ -349,7 +307,6 @@
             .nav-collapse .nav-btn, .nav-collapse select { width: 100%; margin-bottom: 8px; }
             .grid-container { grid-template-columns: 1fr; }
             .number-display { font-size: 4rem; }
-            
             .lc-right { width: 100%; }
         }
     </style>
@@ -365,9 +322,7 @@
             <h1>Number Increment<span class="odia-sub">ସଂଖ୍ୟା ବୃଦ୍ଧି</span></h1>
             <h2><span class="odia-sub">Sandeep Biswal G Apps</span></h2>
         </div>
-        <div class="loader-footer" data-key="footerCredit">
-            by Sandeep Biswal G
-        </div>
+        <div class="loader-footer" data-key="footerCredit">by Sandeep Biswal G</div>
     </div>
 
     <div id="floatingProgress">
@@ -387,18 +342,14 @@
             <div class="nav-brand">Num Increment</div>
             <button class="menu-toggle" onclick="toggleMenu()">☰</button>
             <div class="nav-collapse" id="navMenu">
-                <a href="https://imsbg.github.io/" class="nav-btn" target="_blank">
-                    <span data-key="home">Home</span>
-                </a>
+                <a href="https://imsbg.github.io/" class="nav-btn" target="_blank"><span data-key="home">Home</span></a>
                 
-                <a href="#lengthcheck" class="nav-btn">
-                    <span data-key="lengthCheckBtn">Length Check</span>
-                </a>
-
-                <!-- New Length Converter Button -->
-                <a href="#converter" class="nav-btn">
-                    <span data-key="converterBtn">Length Converter</span>
-                </a>
+                <a href="https://imsbg.github.io/number-increment/calc" class="nav-btn"><span data-key="navLink1">Smart Calc</span></a>
+                <a href="https://www.instagram.com/sandeepbiswalg" class="nav-btn"><span data-key="navLink2">Instagram`</span></a>
+                
+                <a href="#lengthcheck" class="nav-btn"><span data-key="lengthCheckBtn">Length Check</span></a>
+                <a href="#converter" class="nav-btn"><span data-key="converterBtn">Length Converter</span></a>
+                <a href="#badgeconverter" class="nav-btn"><span data-key="badgeConvBtn">Badge Converter</span></a>
 
                 <select id="langSwitch">
                     <option value="both">Mix (Eng & Odia)</option>
@@ -433,7 +384,7 @@
                     </select>
                     <input type="number" id="customTargetInput" class="styled-input custom-target-input" placeholder="e.g. 1000">
                 </div>
-                <button class="btn-reset" onclick="resetData()" style="margin:0; padding: 8px 16px;">
+                <button class="btn-reset" onclick="resetData()">
                     <span data-key="btnReset">Reset Data</span>
                 </button>
             </div>
@@ -472,7 +423,15 @@
                 <div class="number-display" id="badgeDisplay">0</div>
                 <div id="smallTotalDisplay" style="font-size: 1.25rem; font-weight: 700; color: var(--md-sys-color-primary); opacity: 0.8; margin-top: -12px; margin-bottom: 8px;">(Total: 0)</div>
                 
-                <p style="opacity: 0.7; margin-top: 8px;" data-key="badgeDesc">1 Badge = 6 Increments</p>
+                <div class="step-control" style="margin-top: 12px; margin-bottom: 0;">
+                    <label data-key="badgeSizeSet">Set Badge Size:</label>
+                    <div class="stepper-group">
+                        <button class="stepper-btn" onclick="adjustInput('badgeSizeInput', -1)">-</button>
+                        <input type="text" id="badgeSizeInput" min="1" value="6">
+                        <button class="stepper-btn" onclick="adjustInput('badgeSizeInput', 1)">+</button>
+                    </div>
+                </div>
+                <p style="opacity: 0.7; margin-top: 8px;" id="badgeDescText">1 Badge = 6 Increments</p>
                 <div id="anchor-badge"></div>
             </div>
         </div>
@@ -481,14 +440,21 @@
     <div id="interaction-area">
         <div class="step-control">
             <label data-key="stepLabel">Increment Step:</label>
-            <input type="number" id="stepInput" min="1" value="1">
+            <div class="stepper-group">
+                <button class="stepper-btn" onclick="adjustInput('stepInput', -1)">-</button>
+                <input type="text" id="stepInput" min="1" value="1">
+                <button class="stepper-btn" onclick="adjustInput('stepInput', 1)">+</button>
+            </div>
         </div>
+        
         <div class="controls">
-            <button class="btn-dec" onclick="changeCount(-1)">
-                <span id="btnDecText" data-key="btnDecNum">- Decrease</span>
+            <button class="btn-dec control-btn" onclick="changeCount(-1)">
+                <span class="icon">-</span>
+                <span class="btn-text" id="btnDecText" data-key="btnDecNum">Decrement</span>
             </button>
-            <button class="btn-inc" onclick="changeCount(1)">
-                <span id="btnIncText" data-key="btnIncNum">+ Increase</span>
+            <button class="btn-inc control-btn" onclick="changeCount(1)">
+                <span class="icon">+</span>
+                <span class="btn-text" id="btnIncText" data-key="btnIncNum">Increment</span>
             </button>
         </div>
     </div>
@@ -497,70 +463,35 @@
     <div id="lengthCheckModal" class="modal-overlay" onclick="closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="window.location.hash=''">✕</button>
-            
             <div class="lc-layout">
-                <!-- Left Side: Inputs -->
                 <div class="lc-left">
                     <h2 style="margin-bottom: 16px; margin-top: 0; color: var(--md-sys-color-primary); display: flex; align-items: center; gap: 8px;">
                         <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7zm4-8h6v2h-6zm0 4h6v2h-6zm0 4h6v2h-6z"/></svg>
                         <span data-key="lengthCheckTitle">Fiber Length Check</span>
                     </h2>
-                    
-                    <!-- Added oninput for live calculation -->
-                    <div>
-                        <label data-key="lcRead1">Reading End 1</label>
-                        <input type="number" id="lc_read1" class="styled-input" placeholder="e.g. 1500" oninput="calculateLengthLive()">
-                    </div>
-                    
-                    <div>
-                        <label data-key="lcRead2">Reading End 2</label>
-                        <input type="number" id="lc_read2" class="styled-input" placeholder="e.g. 1000" oninput="calculateLengthLive()">
-                    </div>
-                    
-                    <div>
-                        <label data-key="lcEnd1">End 1 Preparation (cm)</label>
-                        <input type="number" id="lc_end1cm" class="styled-input" placeholder="e.g. 150" oninput="calculateLengthLive()">
-                    </div>
-                    
-                    <div>
-                        <label data-key="lcEnd2">End 2 Preparation (cm)</label>
-                        <input type="number" id="lc_end2cm" class="styled-input" placeholder="e.g. 150" oninput="calculateLengthLive()">
-                    </div>
-                    
+                    <div><label data-key="lcRead1">Reading End 1</label><input type="number" id="lc_read1" class="styled-input" placeholder="e.g. 1500" oninput="calculateLengthLive()"></div>
+                    <div><label data-key="lcRead2">Reading End 2</label><input type="number" id="lc_read2" class="styled-input" placeholder="e.g. 1000" oninput="calculateLengthLive()"></div>
+                    <div><label data-key="lcEnd1">End 1 Preparation (cm)</label><input type="number" id="lc_end1cm" class="styled-input" placeholder="e.g. 150" oninput="calculateLengthLive()"></div>
+                    <div><label data-key="lcEnd2">End 2 Preparation (cm)</label><input type="number" id="lc_end2cm" class="styled-input" placeholder="e.g. 150" oninput="calculateLengthLive()"></div>
                     <div style="display: flex; gap: 12px; margin-top: 16px;">
-                        <button class="btn-dec" style="flex: 1; padding: 12px; font-size: 1rem;" onclick="clearInputs()">
-                            <span data-key="lcClearInputs">Clear Inputs</span>
-                        </button>
-                        <button class="btn-inc" style="flex: 1; padding: 12px; font-size: 1rem;" onclick="saveLengthToHistory()">
-                            <span data-key="lcSave">Save to History</span>
-                        </button>
+                        <button class="btn-dec" style="flex: 1; padding: 12px; font-size: 1rem; border-radius: 100px; border: none; font-weight: bold; cursor: pointer;" onclick="clearInputs()"><span data-key="lcClearInputs">Clear Inputs</span></button>
+                        <button class="btn-inc" style="flex: 1; padding: 12px; font-size: 1rem; border-radius: 100px; border: none; font-weight: bold; cursor: pointer;" onclick="saveLengthToHistory()"><span data-key="lcSave">Save to History</span></button>
                     </div>
                 </div>
-
-                <!-- Right Side: Results, History & Back -->
                 <div class="lc-right">
                     <div style="width: 100%; font-size: 1.5rem; font-weight: bold; text-align: center; background: var(--md-sys-color-secondary-container); padding: 32px 16px; border-radius: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
                         <span data-key="lcResultText" style="color: var(--md-sys-color-on-surface); display:block; font-size: 1.1rem; opacity:0.8; margin-bottom: 8px;">Result:</span> 
                         <span id="lc_result" style="color: var(--md-sys-color-primary); font-size: 2.2rem;">0.00 m</span>
                     </div>
-
-                    <button class="btn-outline" onclick="toggleLCHistory()">
-                        <span id="lc_hist_btn_text" data-key="lcViewHistory">View History</span>
-                    </button>
-
+                    <button class="btn-outline" onclick="toggleLCHistory()"><span id="lc_hist_btn_text" data-key="lcViewHistory">View History</span></button>
                     <div id="lc_history_wrapper" class="history-wrapper">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; position: sticky; top: 0; background: var(--md-sys-color-surface-variant); padding-bottom: 8px;">
                             <h3 style="font-size: 1.1rem; opacity: 0.9;" data-key="lcHistTitle">History</h3>
-                            <button style="padding: 6px 16px; font-size: 0.85rem; font-weight: bold; background: var(--md-sys-color-error); color: white; border-radius: 100px; cursor: pointer; border: none;" onclick="clearHistory()">
-                                <span data-key="lcClear">Clear</span>
-                            </button>
+                            <button style="padding: 6px 16px; font-size: 0.85rem; font-weight: bold; background: var(--md-sys-color-error); color: white; border-radius: 100px; cursor: pointer; border: none;" onclick="clearHistory()"><span data-key="lcClear">Clear</span></button>
                         </div>
-                        <div id="lc_history">
-                            <!-- History items load dynamically -->
-                        </div>
+                        <div id="lc_history"></div>
                     </div>
-
-                    <button class="btn-dec" style="width: 100%; padding: 14px; margin-top: auto; font-size: 1.1rem; background-color: var(--md-sys-color-surface-variant);" onclick="window.location.hash=''">
+                    <button class="btn-dec" style="width: 100%; padding: 14px; margin-top: auto; font-size: 1.1rem; border:none; border-radius: 100px; font-weight: bold; cursor:pointer;" onclick="window.location.hash=''">
                         <span data-key="lcBackBtn">Back to Num Increment</span>
                     </button>
                 </div>
@@ -568,24 +499,17 @@
         </div>
     </div>
 
-    <!-- NEW Length Converter Modal -->
+    <!-- Length Converter Modal -->
     <div id="converterModal" class="modal-overlay" onclick="closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="window.location.hash=''">✕</button>
-            
             <div class="lc-layout">
-                <!-- Left Side: Inputs -->
                 <div class="lc-left">
                     <h2 style="margin-bottom: 16px; margin-top: 0; color: var(--md-sys-color-primary); display: flex; align-items: center; gap: 8px;">
                         <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
                         <span data-key="convTitle">Length Converter</span>
                     </h2>
-                    
-                    <div>
-                        <label data-key="convInput">Enter Value</label>
-                        <input type="number" id="conv_input" class="styled-input" placeholder="e.g. 100" oninput="convertLengthLive()" value="1">
-                    </div>
-                    
+                    <div><label data-key="convInput">Enter Value</label><input type="number" id="conv_input" class="styled-input" placeholder="e.g. 100" oninput="convertLengthLive()" value="1"></div>
                     <div>
                         <label data-key="convFrom">From Unit</label>
                         <select id="conv_from" class="styled-input" onchange="convertLengthLive()">
@@ -596,7 +520,6 @@
                             <option value="ft">Feet (ft)</option>
                         </select>
                     </div>
-                    
                     <div>
                         <label data-key="convTo">To Unit</label>
                         <select id="conv_to" class="styled-input" onchange="convertLengthLive()">
@@ -607,17 +530,56 @@
                             <option value="ft">Feet (ft)</option>
                         </select>
                     </div>
-                    
                 </div>
-
-                <!-- Right Side: Result -->
                 <div class="lc-right">
                     <div style="width: 100%; font-size: 1.5rem; font-weight: bold; text-align: center; background: var(--md-sys-color-secondary-container); padding: 32px 16px; border-radius: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
                         <span data-key="lcResultText" style="color: var(--md-sys-color-on-surface); display:block; font-size: 1.1rem; opacity:0.8; margin-bottom: 8px;">Result:</span> 
                         <span id="conv_result" style="color: var(--md-sys-color-primary); font-size: 2.2rem; word-break: break-word;">100 cm</span>
                     </div>
+                    <button class="btn-dec" style="width: 100%; padding: 14px; margin-top: auto; font-size: 1.1rem; border:none; border-radius:100px; font-weight:bold; cursor:pointer;" onclick="window.location.hash=''">
+                        <span data-key="lcBackBtn">Back to Num Increment</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <button class="btn-dec" style="width: 100%; padding: 14px; margin-top: auto; font-size: 1.1rem; background-color: var(--md-sys-color-surface-variant);" onclick="window.location.hash=''">
+    <!-- Badge Converter Modal -->
+    <div id="badgeConverterModal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="window.location.hash=''">✕</button>
+            <div class="lc-layout">
+                <div class="lc-left">
+                    <h2 style="margin-bottom: 16px; margin-top: 0; color: var(--md-sys-color-primary); display: flex; align-items: center; gap: 8px;">
+                        <svg class="svg-badge" viewBox="0 0 24 24" style="width: 28px; height: 28px; margin: 0;"><path d="M12 2l2.4 7.4h7.6l-6.1 4.5 2.3 7.1-6.2-4.6-6.2 4.6 2.3-7.1-6.1-4.5h7.6z"/></svg>
+                        <span data-key="badgeConvTitle">Badge Converter</span>
+                    </h2>
+                    <div><label data-key="convInput">Enter Value</label><input type="number" id="bc_input" class="styled-input" placeholder="e.g. 10" oninput="convertBadgeLive()" value="1"></div>
+                    <div>
+                        <label data-key="badgeSizeSet">Custom Badge Size (Multiplier)</label>
+                        <input type="number" id="bc_size" class="styled-input" placeholder="e.g. 6" oninput="convertBadgeLive()" value="6">
+                    </div>
+                    <div>
+                        <label data-key="convFrom">From</label>
+                        <select id="bc_from" class="styled-input" onchange="convertBadgeLive()">
+                            <option value="badge">Badge</option>
+                            <option value="number">Number</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label data-key="convTo">To</label>
+                        <select id="bc_to" class="styled-input" onchange="convertBadgeLive()">
+                            <option value="number">Number</option>
+                            <option value="badge">Badge</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="lc-right">
+                    <div style="width: 100%; font-size: 1.5rem; font-weight: bold; text-align: center; background: var(--md-sys-color-secondary-container); padding: 32px 16px; border-radius: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                        <span data-key="lcResultText" style="color: var(--md-sys-color-on-surface); display:block; font-size: 1.1rem; opacity:0.8; margin-bottom: 8px;">Result:</span> 
+                        <span id="bc_result" style="color: var(--md-sys-color-primary); font-size: 2.2rem; word-break: break-word;">6 Numbers</span>
+                    </div>
+                    <button class="btn-dec" style="width: 100%; padding: 14px; margin-top: auto; font-size: 1.1rem; border:none; border-radius:100px; font-weight:bold; cursor:pointer;" onclick="window.location.hash=''">
                         <span data-key="lcBackBtn">Back to Num Increment</span>
                     </button>
                 </div>
@@ -638,8 +600,6 @@
     </footer>
 
     <script>
-        // --- NEW FEATURES BLOCK (Theme & PWA) ---
-        
         function applyTimeBasedTheme() {
             if (localStorage.getItem('sbg_theme_override')) return; 
             const hour = new Date().getHours();
@@ -659,7 +619,6 @@
             localStorage.setItem('sbg_theme_override', isDark ? 'dark' : 'light');
         }
 
-        // Initialize Theme on Load
         const savedTheme = localStorage.getItem('sbg_theme_override');
         if (savedTheme === 'dark') {
             document.body.classList.add('dark-theme');
@@ -670,9 +629,8 @@
         } else {
             applyTimeBasedTheme();
         }
-        setInterval(applyTimeBasedTheme, 60000); // Check time every minute
+        setInterval(applyTimeBasedTheme, 60000);
 
-        // Setup Single-File PWA Dynamically
         const manifestJSON = {
             "name": "Number Increment",
             "short_name": "NumInc",
@@ -703,21 +661,21 @@
         }
 
         const isAndroid = /android/i.test(navigator.userAgent || navigator.vendor || window.opera);
-        if (isAndroid) {
-            document.getElementById('androidPromoCard').style.display = 'flex';
-        }
+        if (isAndroid) { document.getElementById('androidPromoCard').style.display = 'flex'; }
 
+        // Core Variables
         let count = parseInt(localStorage.getItem('sbg_count')) || 0;
         let step = parseInt(localStorage.getItem('sbg_step')) || 1;
+        let badgeMultiplier = parseInt(localStorage.getItem('sbg_badge_mult')) || 6;
         let currentLang = localStorage.getItem('sbg_lang') || 'both';
         if(currentLang !== 'both' && currentLang !== 'odia') currentLang = 'both';
         
         let targetValue = parseInt(localStorage.getItem('sbg_target')) || 0;
         let activeMode = localStorage.getItem('sbg_mode') || 'number'; 
-
         let currentLengthTotal = 0;
 
         document.getElementById('stepInput').value = step;
+        document.getElementById('badgeSizeInput').value = badgeMultiplier;
         document.getElementById('langSwitch').value = currentLang;
         
         let selectVal = [0, 200, 300, 460, 500].includes(targetValue) ? targetValue : (targetValue > 0 ? 'custom' : 0);
@@ -729,19 +687,20 @@
 
         const translations = {
             home: { eng: "Home", odia: "ମୁଖ୍ୟ ପୃଷ୍ଠା" },
-            follow: { eng: "Follow Me", odia: "ଅନୁସରଣ କରନ୍ତୁ" },
             currentNum: { eng: "Current Number", odia: "ବର୍ତ୍ତମାନର ସଂଖ୍ୟା" },
             stepLabel: { eng: "Increment Step:", odia: "ବୃଦ୍ଧି ମାତ୍ରା:" },
-            btnIncNum: { eng: "+ Increment Number", odia: "+ ସଂଖ୍ୟା ବୃଦ୍ଧି" },
-            btnDecNum: { eng: "- Decrement Number", odia: "- ସଂଖ୍ୟା ହ୍ରାସ" },
-            btnIncBadge: { eng: "+ Add Badge", odia: "+ ବ୍ୟାଜ୍ ଯୋଗ କରନ୍ତୁ" },
-            btnDecBadge: { eng: "- Remove Badge", odia: "- ବ୍ୟାଜ୍ କାଢ଼ନ୍ତୁ" },
-            btnReset: { eng: "Reset", odia: "ରିସେଟ୍" },
+            
+            btnIncNum: { eng: "Increment Number", odia: "ସଂଖ୍ୟା ବୃଦ୍ଧି" },
+            btnDecNum: { eng: "Decrement Number", odia: "ସଂଖ୍ୟା ହ୍ରାସ" },
+            btnIncBadge: { eng: "Add Badge", odia: "ବ୍ୟାଜ୍ ଯୋଗ କରନ୍ତୁ" },
+            btnDecBadge: { eng: "Remove Badge", odia: "ବ୍ୟାଜ୍ କାଢ଼ନ୍ତୁ" },
+            
+            btnReset: { eng: "Reset Data", odia: "ରିସେଟ୍ ଡାଟା" },
             badges: { eng: "Total Badges", odia: "ମୋଟ ବ୍ୟାଜ୍" },
-            badgeDesc: { eng: "1 Badge = 6 Increments", odia: "୧ ବ୍ୟାଜ୍ = ୬ ସଂଖ୍ୟା" },
+            badgeSizeSet: { eng: "Set Badge Size:", odia: "ବ୍ୟାଜ୍ ଆକାର ସେଟ୍ କରନ୍ତୁ:" },
             targetLabel: { eng: "Set Target:", odia: "ଲକ୍ଷ୍ୟ ସେଟ୍ କରନ୍ତୁ:" },
-            noTarget: { eng: "No Target", odia: "କୌଣସି ଲକ୍ଷ୍ୟ ନାହିଁ" },
-            custom: { eng: "Custom", odia: "କଷ୍ଟମ୍" },
+            noTarget: { eng: "No Target | ", odia: "କୌଣସି ଲକ୍ଷ୍ୟ ନାହିଁ" },
+            custom: { eng: "Custom | ", odia: "କଷ୍ଟମ୍" },
             remainingText: { eng: "Remaining Count:", odia: "ବାକି ସଂଖ୍ୟା:" },
             targetReached: { eng: "Target Reached! 🎉", odia: "ଲକ୍ଷ୍ୟ ପୂରଣ ହେଲା! 🎉" },
             modeNumber: { eng: "Mode: Number Increment", odia: "ମୋଡ୍: ସଂଖ୍ୟା ବୃଦ୍ଧି" },
@@ -750,7 +709,11 @@
             promoTitle: { eng: "Download Plyxo Games", odia: "ଡାଉନଲୋଡ୍ Plyxo Games" },
             promoSub: { eng: "Where Every Move Matters.", odia: "ଯେଉଁଠି ପ୍ରତିଟି ପଦକ୍ଷେପ ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ ।" },
             
-            // Length Check Translations
+            navLink1: { eng: "Smart Calc", odia: "କ୍ୟାଲକୁଲେଟର" },
+            navLink2: { eng: "Follow me on", odia: "Instagram" },
+            badgeConvBtn: { eng: "Badge Converter", odia: "ବ୍ୟାଜ୍ କନଭର୍ଟର" },
+            badgeConvTitle: { eng: "Badge Converter", odia: "ବ୍ୟାଜ୍ କନଭର୍ଟର" },
+
             lengthCheckBtn: { eng: "Length Check", odia: "ଦୈର୍ଘ୍ୟ ଯାଞ୍ଚ" },
             lengthCheckTitle: { eng: "Fiber Length Check", odia: "ଫାଇବର ଦୈର୍ଘ୍ୟ ଯାଞ୍ଚ" },
             lcRead1: { eng: "Reading End 1", odia: "ରିଡିଂ ଏଣ୍ଡ୍ ୧" },
@@ -766,12 +729,11 @@
             lcHideHistory: { eng: "Hide History", odia: "ଇତିହାସ ଲୁଚାନ୍ତୁ" },
             lcBackBtn: { eng: "Back to Num Increment", odia: "Num Increment କୁ ଫେରନ୍ତୁ" },
             
-            // New Converter Translations
             converterBtn: { eng: "Length Converter", odia: "ଦୈର୍ଘ୍ୟ କନଭର୍ଟର" },
             convTitle: { eng: "Length Converter", odia: "ଦୈର୍ଘ୍ୟ କନଭର୍ଟର" },
             convInput: { eng: "Enter Value", odia: "ମୂଲ୍ୟ ଲେଖନ୍ତୁ" },
             convFrom: { eng: "From Unit", odia: "ରୁ (ୟୁନିଟ୍)" },
-            convTo: { eng: "କୁ (ୟୁନିଟ୍)", odia: "କୁ (ୟୁନିଟ୍)" } // Fixed typo for consistency
+            convTo: { eng: "କୁ (ୟୁନିଟ୍)", odia: "କୁ (ୟୁନିଟ୍)" }
         };
 
         function toOdiaNumeral(num) {
@@ -783,29 +745,48 @@
             }).join('');
         }
 
+        function parseOdiaInput(val, fallback) {
+            const odiaMap = {'୦':0, '୧':1, '୨':2, '୩':3, '୪':4, '୫':5, '୬':6, '୭':7, '୮':8, '୯':9};
+            let parsed = val.toString().split('').map(c => odiaMap[c] !== undefined ? odiaMap[c] : c).join('');
+            return parseInt(parsed) || fallback;
+        }
+
+        // Adjust Step / Badge size dynamically via +/- buttons
+        function adjustInput(inputId, delta) {
+            let inputEl = document.getElementById(inputId);
+            let currentVal = parseOdiaInput(inputEl.value, 1);
+            let newVal = currentVal + delta;
+            if (newVal < 1) newVal = 1;
+
+            if (inputId === 'stepInput') {
+                step = newVal;
+                localStorage.setItem('sbg_step', step);
+            } else if (inputId === 'badgeSizeInput') {
+                badgeMultiplier = newVal;
+                localStorage.setItem('sbg_badge_mult', badgeMultiplier);
+            }
+            updateUI();
+        }
+
         function toggleMenu() {
             const menu = document.getElementById('navMenu');
             const overlay = document.getElementById('mobileOverlay');
-            menu.classList.toggle('active');
-            overlay.classList.toggle('active');
+            menu.classList.toggle('active'); overlay.classList.toggle('active');
         }
         
         function closeMobileMenu() {
             const menu = document.getElementById('navMenu');
             const overlay = document.getElementById('mobileOverlay');
             if (menu.classList.contains('active')) {
-                menu.classList.remove('active');
-                overlay.classList.remove('active');
+                menu.classList.remove('active'); overlay.classList.remove('active');
             }
         }
 
         function toggleMode() {
             activeMode = activeMode === 'number' ? 'badge' : 'number';
             localStorage.setItem('sbg_mode', activeMode);
-            
             const rotateIcon = document.getElementById('rotateIcon');
             rotateIcon.classList.toggle('rotated');
-
             updateUI();
         }
 
@@ -814,6 +795,7 @@
             localStorage.setItem('sbg_step', step);
             localStorage.setItem('sbg_lang', currentLang);
             localStorage.setItem('sbg_target', targetValue);
+            localStorage.setItem('sbg_badge_mult', badgeMultiplier);
 
             const interactionArea = document.getElementById('interaction-area');
             const modeTextEl = document.getElementById('modeText');
@@ -832,31 +814,42 @@
                 btnIncText.setAttribute('data-key', 'btnIncNum');
             }
 
-            let badges = Math.floor(count / 6);
+            let badges = Math.floor(count / badgeMultiplier);
             if (badges < 0) badges = 0; 
 
-            let displayCount = count;
-            let displayBadges = badges;
-            let displayStep = step;
-
-            if (currentLang === 'odia') {
-                displayCount = toOdiaNumeral(count);
-                displayBadges = toOdiaNumeral(badges);
-                displayStep = toOdiaNumeral(step);
-                document.getElementById('stepInput').type = "text";
-                document.getElementById('stepInput').value = displayStep;
-            } else {
-                document.getElementById('stepInput').type = "number";
-                document.getElementById('stepInput').value = step;
-            }
-
+            let displayCount = currentLang === 'odia' ? toOdiaNumeral(count) : count;
+            let displayBadges = currentLang === 'odia' ? toOdiaNumeral(badges) : badges;
+            
             document.getElementById('countDisplay').innerText = displayCount;
             document.getElementById('badgeDisplay').innerText = displayBadges;
-            
             document.getElementById('smallTotalDisplay').innerText = `(Total: ${displayCount})`;
 
+            let stepInput = document.getElementById('stepInput');
+            if (currentLang === 'odia') {
+                stepInput.type = "text"; stepInput.value = toOdiaNumeral(step);
+            } else {
+                stepInput.type = "number"; stepInput.value = step;
+            }
+
+            let badgeInput = document.getElementById('badgeSizeInput');
+            if (currentLang === 'odia') {
+                badgeInput.type = "text"; badgeInput.value = toOdiaNumeral(badgeMultiplier);
+            } else {
+                badgeInput.type = "number"; badgeInput.value = badgeMultiplier;
+            }
+
+            let bDescEng = `1 Badge = ${badgeMultiplier} Increments`;
+            let bDescOdia = `୧ ବ୍ୟାଜ୍ = ${toOdiaNumeral(badgeMultiplier)} ସଂଖ୍ୟା`;
+            if (currentLang === 'both') {
+                document.getElementById('badgeDescText').innerHTML = `${bDescEng}<span class="odia-sub">${bDescOdia}</span>`;
+            } else if (currentLang === 'odia') {
+                document.getElementById('badgeDescText').innerHTML = bDescOdia;
+            }
+
             const progressContainer = document.getElementById('progressContainer');
+            
             if (targetValue > 0) {
+                document.body.classList.add('target-active');
                 progressContainer.style.display = 'block';
                 let remaining = targetValue - count;
                 let percentage = (count / targetValue) * 100;
@@ -870,14 +863,11 @@
                 const floatStatusEl = document.getElementById('floatRemainingText');
                 
                 if (remaining <= 0) {
-                    statusEl.setAttribute('data-key', 'targetReached');
-                    floatStatusEl.setAttribute('data-key', 'targetReached');
+                    statusEl.setAttribute('data-key', 'targetReached'); floatStatusEl.setAttribute('data-key', 'targetReached');
                     document.body.classList.add('target-reached-bg');
                 } else {
-                    statusEl.setAttribute('data-key', 'remainingText');
-                    floatStatusEl.setAttribute('data-key', 'remainingText');
+                    statusEl.setAttribute('data-key', 'remainingText'); floatStatusEl.setAttribute('data-key', 'remainingText');
                     document.body.classList.remove('target-reached-bg');
-                    
                     translations.remainingText.eng = `Remaining Count: <span style="color:var(--md-sys-color-primary)">${remaining}</span>`;
                     translations.remainingText.odia = `ବାକି ସଂଖ୍ୟା: <span style="color:var(--md-sys-color-primary)">${toOdiaNumeral(remaining)}</span>`;
                 }
@@ -888,18 +878,16 @@
                 document.getElementById('floatTargetDisplay').innerText = finalTargetText;
 
             } else {
+                document.body.classList.remove('target-active');
                 progressContainer.style.display = 'none';
                 document.body.classList.remove('target-reached-bg');
             }
 
-            // Sync dynamic texts
-            updateLengthResultUI();
-            convertLengthLive();
+            updateLengthResultUI(); convertLengthLive(); convertBadgeLive();
 
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
                 if(!translations[key]) return;
-
                 if (currentLang === 'both') {
                     el.innerHTML = `${translations[key].eng}<span class="odia-sub">${translations[key].odia}</span>`;
                 } else if (currentLang === 'odia') {
@@ -909,102 +897,85 @@
         }
 
         function changeCount(direction) {
-            let multiplier = activeMode === 'badge' ? 6 : 1;
+            let multiplier = activeMode === 'badge' ? badgeMultiplier : 1;
             count += (step * multiplier * direction);
             if(count < 0) count = 0; 
             updateUI();
         }
 
-        function resetData() {
-            count = 0;
-            step = 1;
-            updateUI();
-        }
+        function resetData() { count = 0; step = 1; updateUI(); }
 
-        // --- LENGTH CHECK LOGIC (LIVE UPDATE) ---
         function calculateLengthLive() {
             let r1 = parseFloat(document.getElementById('lc_read1').value) || 0;
             let r2 = parseFloat(document.getElementById('lc_read2').value) || 0;
             let e1 = parseFloat(document.getElementById('lc_end1cm').value) || 0;
             let e2 = parseFloat(document.getElementById('lc_end2cm').value) || 0;
-            
             let diff = Math.abs(r1 - r2);
             let baseMeters = diff / 3.28;
-            let e1Meters = e1 / 100;
-            let e2Meters = e2 / 100;
-            
-            currentLengthTotal = baseMeters + e1Meters + e2Meters;
+            currentLengthTotal = baseMeters + (e1 / 100) + (e2 / 100);
             updateLengthResultUI();
         }
 
         function saveLengthToHistory() {
-            calculateLengthLive(); // ensure it's up to date
-            if (currentLengthTotal === 0) return; // Optional check to not save empty data
-
+            calculateLengthLive(); 
+            if (currentLengthTotal === 0) return; 
             let r1 = parseFloat(document.getElementById('lc_read1').value) || 0;
             let r2 = parseFloat(document.getElementById('lc_read2').value) || 0;
             let e1 = parseFloat(document.getElementById('lc_end1cm').value) || 0;
             let e2 = parseFloat(document.getElementById('lc_end2cm').value) || 0;
-
-            let historyText = currentLengthTotal.toFixed(2) + " m";
-            saveHistory(`R1: ${r1}, R2: ${r2} | Extra: ${e1}cm, ${e2}cm => <strong>${historyText}</strong>`);
+            saveHistory(`R1: ${r1}, R2: ${r2} | Extra: ${e1}cm, ${e2}cm => <strong>${currentLengthTotal.toFixed(2)} m</strong>`);
         }
 
         function clearInputs() {
-            document.getElementById('lc_read1').value = '';
-            document.getElementById('lc_read2').value = '';
-            document.getElementById('lc_end1cm').value = '';
-            document.getElementById('lc_end2cm').value = '';
-            currentLengthTotal = 0;
-            updateLengthResultUI();
+            document.getElementById('lc_read1').value = ''; document.getElementById('lc_read2').value = '';
+            document.getElementById('lc_end1cm').value = ''; document.getElementById('lc_end2cm').value = '';
+            currentLengthTotal = 0; updateLengthResultUI();
         }
 
         function updateLengthResultUI() {
             let resultEng = currentLengthTotal.toFixed(2) + " m";
             let resultOdia = toOdiaNumeral(currentLengthTotal.toFixed(2)) + " ମିଟର";
-            
-            if (currentLang === 'odia') {
-                document.getElementById('lc_result').innerHTML = resultOdia;
-            } else {
-                document.getElementById('lc_result').innerHTML = `${resultEng} <span style="font-size: 0.5em; opacity: 0.8; display: block; margin-top: 4px;">(${resultOdia})</span>`;
-            }
+            document.getElementById('lc_result').innerHTML = currentLang === 'odia' ? resultOdia : `${resultEng} <span style="font-size: 0.5em; opacity: 0.8; display: block; margin-top: 4px;">(${resultOdia})</span>`;
         }
 
-        // --- NEW: LENGTH CONVERTER LOGIC (LIVE) ---
-        const conversionRatesToMeters = {
-            'mm': 0.001,
-            'cm': 0.01,
-            'm': 1,
-            'in': 0.0254,
-            'ft': 0.3048
-        };
-
+        const conversionRatesToMeters = { 'mm': 0.001, 'cm': 0.01, 'm': 1, 'in': 0.0254, 'ft': 0.3048 };
         function convertLengthLive() {
             let val = parseFloat(document.getElementById('conv_input').value);
             if (isNaN(val)) val = 0;
-
             let fromUnit = document.getElementById('conv_from').value;
             let toUnit = document.getElementById('conv_to').value;
             
-            // Convert to meters base first
-            let meters = val * conversionRatesToMeters[fromUnit];
-            // Convert to target unit
-            let result = meters / conversionRatesToMeters[toUnit];
-            
-            // Clean up long floats (max 4 decimal places unless exact)
+            let result = (val * conversionRatesToMeters[fromUnit]) / conversionRatesToMeters[toUnit];
             let resultStr = parseFloat(result.toFixed(4)).toString();
             
             let resultEng = `${resultStr} ${toUnit}`;
             let resultOdia = `${toOdiaNumeral(resultStr)} ${toUnit}`;
-            
-            if (currentLang === 'odia') {
-                document.getElementById('conv_result').innerHTML = resultOdia;
-            } else {
-                document.getElementById('conv_result').innerHTML = `${resultEng} <span style="font-size: 0.5em; opacity: 0.8; display: block; margin-top: 4px;">(${resultOdia})</span>`;
-            }
+            document.getElementById('conv_result').innerHTML = currentLang === 'odia' ? resultOdia : `${resultEng} <span style="font-size: 0.5em; opacity: 0.8; display: block; margin-top: 4px;">(${resultOdia})</span>`;
         }
 
-        // --- HISTORY LOGIC ---
+        function convertBadgeLive() {
+            let val = parseFloat(document.getElementById('bc_input').value);
+            if (isNaN(val)) val = 0;
+            let customSize = parseFloat(document.getElementById('bc_size').value) || badgeMultiplier;
+            
+            let fromUnit = document.getElementById('bc_from').value;
+            let toUnit = document.getElementById('bc_to').value;
+            
+            let result = 0;
+            let toUnitTextEng = toUnit === 'badge' ? 'Badges' : 'Numbers';
+            let toUnitTextOdia = toUnit === 'badge' ? 'ବ୍ୟାଜ୍' : 'ସଂଖ୍ୟା';
+
+            if (fromUnit === toUnit) result = val;
+            else if (fromUnit === 'badge' && toUnit === 'number') result = val * customSize;
+            else if (fromUnit === 'number' && toUnit === 'badge') result = val / customSize;
+            
+            let resultStr = parseFloat(result.toFixed(2)).toString();
+            let resultEng = `${resultStr} ${toUnitTextEng}`;
+            let resultOdia = `${toOdiaNumeral(resultStr)} ${toUnitTextOdia}`;
+            
+            document.getElementById('bc_result').innerHTML = currentLang === 'odia' ? resultOdia : `${resultEng} <span style="font-size: 0.5em; opacity: 0.8; display: block; margin-top: 4px;">(${resultOdia})</span>`;
+        }
+
         function toggleLCHistory() {
             const wrap = document.getElementById('lc_history_wrapper');
             const btnText = document.getElementById('lc_hist_btn_text');
@@ -1043,55 +1014,33 @@
             ).join('');
         }
 
-        function clearHistory() {
-            localStorage.removeItem('sbg_lc_history');
-            renderHistory();
-        }
+        function clearHistory() { localStorage.removeItem('sbg_lc_history'); renderHistory(); }
 
-        // --- MODAL ROUTING (HASH CHANGES) ---
         function handleHashChange() {
             const lcModal = document.getElementById('lengthCheckModal');
             const convModal = document.getElementById('converterModal');
+            const badgeModal = document.getElementById('badgeConverterModal');
             
-            lcModal.classList.remove('active');
-            convModal.classList.remove('active');
+            lcModal.classList.remove('active'); convModal.classList.remove('active'); badgeModal.classList.remove('active');
 
             if(window.location.hash === '#lengthcheck') {
-                lcModal.classList.add('active');
-                renderHistory();
-                updateUI(); 
-                closeMobileMenu();
+                lcModal.classList.add('active'); renderHistory(); updateUI(); closeMobileMenu();
             } else if (window.location.hash === '#converter') {
-                convModal.classList.add('active');
-                convertLengthLive(); // init conversion UI
-                updateUI();
-                closeMobileMenu();
+                convModal.classList.add('active'); convertLengthLive(); updateUI(); closeMobileMenu();
+            } else if (window.location.hash === '#badgeconverter') {
+                document.getElementById('bc_size').value = badgeMultiplier; 
+                badgeModal.classList.add('active'); convertBadgeLive(); updateUI(); closeMobileMenu();
             }
         }
 
-        function closeModal(e) {
-            if(e.target.classList.contains('modal-overlay')) {
-                window.location.hash = ''; 
-            }
-        }
-        
+        function closeModal(e) { if(e.target.classList.contains('modal-overlay')) window.location.hash = ''; }
         window.addEventListener('hashchange', handleHashChange);
 
-
-        // --- SCROLL LISTENERS ---
         let lastScrollY = window.scrollY;
-        
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
-            const floatBar = document.getElementById('floatingProgress');
             const mainNav = document.getElementById('mainNav');
             
-            if(currentScrollY > 150 && targetValue > 0) {
-                floatBar.classList.add('visible');
-            } else {
-                floatBar.classList.remove('visible');
-            }
-
             if (window.innerWidth >= 768) {
                 if (currentScrollY > lastScrollY && currentScrollY > 100) {
                     mainNav.classList.add('nav-hidden');
@@ -1103,21 +1052,22 @@
         });
 
         document.getElementById('stepInput').addEventListener('input', function(e) {
-            let val = e.target.value;
-            const odiaMap = {'୦':0, '୧':1, '୨':2, '୩':3, '୪':4, '୫':5, '୬':6, '୭':7, '୮':8, '୯':9};
-            if (currentLang === 'odia') {
-                let parsed = val.split('').map(c => odiaMap[c] !== undefined ? odiaMap[c] : c).join('');
-                step = parseInt(parsed) || 1;
-            } else {
-                step = parseInt(val) || 1;
-            }
+            step = parseOdiaInput(e.target.value, 1);
             localStorage.setItem('sbg_step', step);
         });
         document.getElementById('stepInput').addEventListener('blur', updateUI);
 
+        document.getElementById('badgeSizeInput').addEventListener('input', function(e) {
+            let parsedSize = parseOdiaInput(e.target.value, 6);
+            if (parsedSize > 0) {
+                badgeMultiplier = parsedSize;
+                localStorage.setItem('sbg_badge_mult', badgeMultiplier);
+            }
+        });
+        document.getElementById('badgeSizeInput').addEventListener('blur', updateUI);
+
         document.getElementById('langSwitch').addEventListener('change', function(e) {
-            currentLang = e.target.value;
-            updateUI();
+            currentLang = e.target.value; updateUI();
         });
 
         document.getElementById('targetSelect').addEventListener('change', function(e) {
@@ -1134,19 +1084,16 @@
         });
 
         document.getElementById('customTargetInput').addEventListener('input', function(e) {
-            targetValue = parseInt(e.target.value) || 0;
-            updateUI();
+            targetValue = parseInt(e.target.value) || 0; updateUI();
         });
 
         window.addEventListener('load', () => {
             updateUI();
-            handleHashChange(); // Check hash on initial load
+            handleHashChange();
             setTimeout(() => {
                 const loader = document.getElementById('loader');
                 loader.style.opacity = '0';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                }, 500);
+                setTimeout(() => loader.style.display = 'none', 500);
             }, 1500);
         });
     </script>
