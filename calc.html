@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- Professional SEO Optimization -->
+    <meta name="description" content="Smart Calculator by Sandeep Biswal G is a highly customized, responsive mathematical utility app with live results, parentheses, percentage, and persistent history, available in Odia and English.">
+    <meta name="keywords" content="Smart Calculator, Online Calculator, Live Math Expression, Sandeep Biswal G, Odia Calculator, Android Developer, Utility, Plyxo Games, Goa Commscope">
+    <meta name="author" content="Sandeep Biswal G">
+    <meta name="robots" content="index, follow">
+    <title>Smart Calculator - Sandeep Biswal G</title>
+
+    <!-- Canonical & Open Graph -->
+    <link rel="canonical" href="https://imsbg.github.io/smart-calculator/">
+    <meta property="og:site_name" content="Smart Calculator - Sandeep Biswal G">
+    <meta property="og:title" content="Smart Calculator - Sandeep Biswal G">
+    <meta property="og:description" content="A highly customized smart calculator with live preview, parenthesis, and persistent history by Sandeep Biswal G.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://imsbg.github.io/smart-calculator/">
+
+    <link rel="manifest" id="dynamic-manifest">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --md-sys-color-primary: #005ac1;
+            --md-sys-color-on-primary: #ffffff;
+            --md-sys-color-primary-container: #d8e2ff;
+            --md-sys-color-on-primary-container: #001a41;
+            --md-sys-color-secondary-container: #dce2f9;
+            --md-sys-color-background: #fdfbff;
+            --md-sys-color-surface: #fdfbff;
+            --md-sys-color-surface-variant: #e1e2ec;
+            --md-sys-color-on-surface: #1a1b1e;
+            --md-sys-color-error: #ba1a1a;
+            --md-sys-color-on-error: #ffffff;
+            --border-radius: 24px;
+        }
+
+        body.dark-theme {
+            --md-sys-color-primary: #a8c7fa;
+            --md-sys-color-on-primary: #062e6f;
+            --md-sys-color-primary-container: #004593;
+            --md-sys-color-on-primary-container: #d8e2ff;
+            --md-sys-color-secondary-container: #334b6b;
+            --md-sys-color-background: #121212;
+            --md-sys-color-surface: #1e1e1e;
+            --md-sys-color-surface-variant: #333333;
+            --md-sys-color-on-surface: #e2e2e2;
+            --md-sys-color-error: #ffb4ab;
+            --md-sys-color-on-error: #690005;
+        }
+        
+        body.dark-theme select, 
+        body.dark-theme .nav-collapse.active {
+            color: var(--md-sys-color-on-surface);
+            border-color: #555;
+        }
+
+        body.dark-theme .mobile-overlay { background: rgba(255,255,255,0.1); }
+        body.dark-theme .history-item { border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Google Sans', sans-serif; }
+
+        body {
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-surface);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Lock scroll to make it a one-screen app */
+            transition: background 0.6s ease-in-out, color 0.6s ease-in-out; 
+        }
+
+        /* Loading Screen */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--md-sys-color-primary-container);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999; transition: opacity 0.5s ease; text-align: center;
+        }
+        #loader-content { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        #loader h1 { color: var(--md-sys-color-on-primary-container); margin-bottom: 16px; font-size: 2.5rem; }
+        #loader h2 { color: var(--md-sys-color-primary); font-weight: 500; font-size: 1.5rem;}
+        
+        .odia-sub { display: block; font-size: 0.85em; opacity: 0.8; margin-top: 4px; line-height: 1.5; padding-bottom: 2px; }
+
+        /* Navigation */
+        nav { 
+            background-color: var(--md-sys-color-surface); 
+            padding: 12px 24px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+            z-index: 1000;
+        }
+        
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; width: 100%; }
+        .nav-brand { font-weight: 700; font-size: 1.2rem; color: var(--md-sys-color-primary); }
+        .menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: var(--md-sys-color-on-surface); cursor: pointer; padding: 4px; }
+
+        .mobile-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; transition: opacity 0.3s;
+        }
+        .nav-collapse { display: flex; gap: 12px; align-items: center; }
+        .nav-btn { text-decoration: none; color: var(--md-sys-color-on-surface); font-weight: 500; padding: 8px 16px; border-radius: 100px; transition: background 0.2s; text-align: center; font-size: 0.9rem;}
+        .nav-btn:hover { background-color: var(--md-sys-color-surface-variant); }
+
+        select {
+            padding: 8px 12px; border-radius: 100px; border: 1px solid var(--md-sys-color-surface-variant);
+            background: var(--md-sys-color-surface); font-family: 'Google Sans', sans-serif; font-weight: 500; cursor: pointer; outline: none;
+            transition: background-color 0.6s, color 0.6s; font-size: 0.9rem;
+        }
+
+        /* One-Screen Layout */
+        main { 
+            flex: 1; padding: 16px; max-width: 1400px; margin: 0 auto; width: 100%; 
+            display: flex; gap: 16px; overflow: hidden;
+        }
+
+        .calc-left { flex: 1.2; display: flex; flex-direction: column; gap: 16px; height: 100%; }
+        .calc-right { flex: 0.8; display: flex; flex-direction: column; height: 100%; }
+
+        .card {
+            background-color: var(--md-sys-color-surface); border-radius: var(--border-radius); padding: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            border: 1px solid var(--md-sys-color-surface-variant); transition: background-color 0.6s;
+        }
+        
+        /* Display Card */
+        .display-card {
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 24px 20px;
+            background: linear-gradient(135deg, var(--md-sys-color-primary-container), var(--md-sys-color-surface-variant));
+            min-height: 120px; flex-shrink: 0;
+        }
+        .equation-display { font-size: 1.5rem; font-weight: 600; opacity: 0.7; color: var(--md-sys-color-on-surface); min-height: 2rem; margin-bottom: 4px; word-break: break-all; text-align: right; transition: color 0.3s;}
+        .main-display { font-size: 3.5rem; font-weight: 700; color: var(--md-sys-color-primary); word-break: break-all; text-align: right; line-height: 1.1; overflow-x: auto; max-width: 100%; }
+        
+        /* Hide scrollbar for display */
+        .main-display::-webkit-scrollbar { display: none; }
+        .main-display { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Keypad Styles */
+        .keypad-card { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .keypad {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; height: 100%;
+        }
+        .key-btn {
+            font-size: 1.5rem; font-weight: bold; border-radius: 100px; border: none; cursor: pointer;
+            background: var(--md-sys-color-surface-variant); color: var(--md-sys-color-on-surface);
+            transition: transform 0.1s, filter 0.2s; display: flex; justify-content: center; align-items: center;
+        }
+        @media (hover: hover) { .key-btn:hover { filter: brightness(0.95); } }
+        .key-btn:active { transform: scale(0.92); }
+        .key-btn.op { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-primary); font-size: 1.6rem; }
+        .key-btn.eq { background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); font-size: 2rem; grid-column: span 4; }
+        .key-btn.clear { background: var(--md-sys-color-error); color: var(--md-sys-color-on-error); }
+        .key-btn.del { background: rgba(186, 26, 26, 0.15); color: var(--md-sys-color-error); }
+
+        .btn-outline { background: transparent; color: var(--md-sys-color-error); border: 2px solid var(--md-sys-color-error); padding: 6px 14px; border-radius: 100px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.3s; font-size: 0.9rem;}
+        .btn-outline:hover { background: var(--md-sys-color-error); color: var(--md-sys-color-on-error); }
+
+        /* History List Styles */
+        .history-wrapper {
+            display: flex; flex-direction: column; flex: 1; background: var(--md-sys-color-surface-variant); 
+            border-radius: 16px; padding: 12px; overflow-y: auto; margin-top: 12px;
+        }
+        .history-item { 
+            display: flex; flex-direction: column; gap: 4px; font-size: 1rem; padding: 12px; border-bottom: 1px solid rgba(0,0,0,0.08); text-align: right; cursor: pointer; border-radius: 12px; transition: background 0.2s;
+        }
+        .history-item:hover { background: rgba(0,0,0,0.05); }
+        .history-item:last-child { border-bottom: none; }
+        .hist-eq { font-size: 0.9rem; opacity: 0.7; word-break: break-all; }
+        .hist-res { font-weight: bold; font-size: 1.3rem; color: var(--md-sys-color-primary); word-break: break-all;}
+
+        @media (max-width: 768px) {
+            body { position: fixed; width: 100%; } /* Prevents pull-to-refresh & body scroll on mobile */
+            .menu-toggle { display: block; }
+            .nav-collapse {
+                display: flex; flex-direction: column; position: fixed;
+                top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
+                background: var(--md-sys-color-surface); padding: 24px; border-radius: 24px;
+                width: 90%; max-width: 350px; z-index: 1002; box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+                opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .nav-collapse.active { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+            .mobile-overlay.active { display: block; opacity: 1; }
+            .nav-collapse .nav-btn, .nav-collapse select { width: 100%; margin-bottom: 8px; }
+            
+            main { flex-direction: column; padding: 12px; gap: 12px; }
+            .calc-left { flex: unset; height: auto; }
+            .calc-right { flex: 1; min-height: 0; } /* allows internal scroll */
+            
+            .display-card { padding: 16px; min-height: 90px; }
+            .main-display { font-size: 3rem; }
+            .equation-display { font-size: 1.2rem; min-height: 1.5rem;}
+            
+            .keypad { gap: 8px; grid-template-rows: repeat(6, minmax(45px, 1fr)); }
+            .key-btn { font-size: 1.3rem; }
+            .key-btn.eq { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div id="loader-content">
+            <h1>Smart Calculator<span class="odia-sub">ସ୍ମାର୍ଟ କାଲକୁଲେଟର</span></h1>
+        </div>
+    </div>
+
+    <div class="mobile-overlay" id="mobileOverlay" onclick="toggleMenu()"></div>
+    
+    <nav id="mainNav">
+        <div class="nav-container">
+            <div class="nav-brand">Smart Calc</div>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <div class="nav-collapse" id="navMenu">
+                <a href="https://imsbg.github.io/number-increment/" class="nav-btn" target="_blank"><span data-key="home">Home</span></a>
+                
+                <select id="langSwitch">
+                    <option value="both">Mix (Eng & Odia)</option>
+                    <option value="odia">ଓଡ଼ିଆ</option>
+                </select>
+                
+                <button class="nav-btn" onclick="toggleManualTheme()" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                    <span id="themeToggleText">🌙 Dark</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="calc-left">
+            <div class="card display-card">
+                <div class="equation-display" id="equationDisplay"></div>
+                <div class="main-display" id="mainDisplay">0</div>
+            </div>
+
+            <div class="card keypad-card">
+                <div class="keypad">
+                    <!-- Row 1 -->
+                    <button class="key-btn clear" onclick="calculator.clearAll()">C</button>
+                    <button class="key-btn op" onclick="calculator.append('(')">(</button>
+                    <button class="key-btn op" onclick="calculator.append(')')">)</button>
+                    <button class="key-btn del" onclick="calculator.delete()">⌫</button>
+                    
+                    <!-- Row 2 -->
+                    <button class="key-btn num" onclick="calculator.append('7')">7</button>
+                    <button class="key-btn num" onclick="calculator.append('8')">8</button>
+                    <button class="key-btn num" onclick="calculator.append('9')">9</button>
+                    <button class="key-btn op" onclick="calculator.append('÷')">÷</button>
+                    
+                    <!-- Row 3 -->
+                    <button class="key-btn num" onclick="calculator.append('4')">4</button>
+                    <button class="key-btn num" onclick="calculator.append('5')">5</button>
+                    <button class="key-btn num" onclick="calculator.append('6')">6</button>
+                    <button class="key-btn op" onclick="calculator.append('×')">×</button>
+                    
+                    <!-- Row 4 -->
+                    <button class="key-btn num" onclick="calculator.append('1')">1</button>
+                    <button class="key-btn num" onclick="calculator.append('2')">2</button>
+                    <button class="key-btn num" onclick="calculator.append('3')">3</button>
+                    <button class="key-btn op" onclick="calculator.append('-')">-</button>
+                    
+                    <!-- Row 5 -->
+                    <button class="key-btn num" onclick="calculator.append('0')">0</button>
+                    <button class="key-btn num" onclick="calculator.append('.')">.</button>
+                    <button class="key-btn op" onclick="calculator.append('%')">%</button>
+                    <button class="key-btn op" onclick="calculator.append('+')">+</button>
+                    
+                    <!-- Row 6 -->
+                    <button class="key-btn eq" onclick="calculator.compute()">=</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="calc-right">
+            <div class="card" style="height: 100%; display: flex; flex-direction: column; padding: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--md-sys-color-surface-variant); padding-bottom: 8px;">
+                    <h3 data-key="historyTitle" style="font-size: 1.1rem; color: var(--md-sys-color-primary); margin: 0;">History</h3>
+                    <button class="btn-outline" onclick="calculator.clearHistory()">
+                        <span data-key="clearBtn">Clear</span>
+                    </button>
+                </div>
+                
+                <div id="historyList" class="history-wrapper">
+                    <div style="text-align: center; opacity: 0.6; padding: 24px; font-style: italic;" data-key="emptyListMsg">No calculations yet.</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- Theme & Setup Logic ---
+        function applyTimeBasedTheme() {
+            if (localStorage.getItem('sbg_theme_override')) return; 
+            const hour = new Date().getHours();
+            const themeBtn = document.getElementById('themeToggleText');
+            if (hour >= 6 && hour < 18) {
+                document.body.classList.remove('dark-theme');
+                if(themeBtn) themeBtn.innerText = '🌙 Dark';
+            } else {
+                document.body.classList.add('dark-theme');
+                if(themeBtn) themeBtn.innerText = '☀️ Light';
+            }
+        }
+
+        function toggleManualTheme() {
+            const isDark = document.body.classList.toggle('dark-theme');
+            document.getElementById('themeToggleText').innerText = isDark ? '☀️ Light' : '🌙 Dark';
+            localStorage.setItem('sbg_theme_override', isDark ? 'dark' : 'light');
+        }
+
+        const savedTheme = localStorage.getItem('sbg_theme_override');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+            document.getElementById('themeToggleText').innerText = '☀️ Light';
+        } else if (savedTheme === 'light') {
+            document.body.classList.remove('dark-theme');
+            document.getElementById('themeToggleText').innerText = '🌙 Dark';
+        } else {
+            applyTimeBasedTheme();
+        }
+        setInterval(applyTimeBasedTheme, 60000);
+
+        const manifestJSON = {
+            "name": "Smart Calculator",
+            "short_name": "SmartCalc",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#fdfbff",
+            "theme_color": "#005ac1",
+            "icons": [{
+                "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzAwNWFjMSI+PHBhdGggZD0iTTE5IDNINWMtMS4xIDAtMiAuOS0yIDJ2MTRjMCAxLjEuOSAyIDIgMmgxNGMxLjEgMCAyLS45IDItMlY1YzAtMS4xLS45LTItMi0yem0wIDE2SDVWNWgxNHYxNHoiLz48L3N2Zz4=",
+                "sizes": "192x192",
+                "type": "image/svg+xml",
+                "purpose": "any maskable"
+            }]
+        };
+        const manifestBlob = new Blob([JSON.stringify(manifestJSON)], {type: 'application/json'});
+        document.getElementById('dynamic-manifest').href = URL.createObjectURL(manifestBlob);
+
+        // --- Dual Language Logic ---
+        let currentLang = localStorage.getItem('sbg_lang') || 'both';
+        if(currentLang !== 'both' && currentLang !== 'odia') currentLang = 'both';
+        document.getElementById('langSwitch').value = currentLang;
+
+        const translations = {
+            home: { eng: "Home", odia: "ମୁଖ୍ୟ ପୃଷ୍ଠା" },
+            historyTitle: { eng: "History", odia: "ଇତିହାସ" },
+            clearBtn: { eng: "Clear All", odia: "ସଫା କରନ୍ତୁ" },
+            emptyListMsg: { eng: "No calculations yet.", odia: "ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ହିସାବ ନାହିଁ।" }
+        };
+
+        function toOdiaNumeral(str) {
+            const odiaDigits = ['୦', '୧', '୨', '୩', '୪', '୫', '୬', '୭', '୮', '୯'];
+            return str.toString().split('').map(char => {
+                if (char >= '0' && char <= '9') return odiaDigits[parseInt(char)];
+                return char;
+            }).join('');
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('navMenu');
+            const overlay = document.getElementById('mobileOverlay');
+            menu.classList.toggle('active'); overlay.classList.toggle('active');
+        }
+
+        function updateTranslations() {
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if(!translations[key]) return;
+                
+                if (currentLang === 'both') {
+                    el.innerHTML = `${translations[key].eng}<span class="odia-sub">${translations[key].odia}</span>`;
+                } else if (currentLang === 'odia') {
+                    el.innerHTML = translations[key].odia;
+                }
+            });
+        }
+
+        // --- Advanced Calculator Logic ---
+        const calculator = {
+            expression: '',
+            history: JSON.parse(localStorage.getItem('sbg_calc_history')) || [],
+            isError: false,
+            showingResult: false, // Tracks if the screen is currently showing a finalized result
+
+            // Helper to securely and silently evaluate math expression
+            evaluateExpression(expr) {
+                if (!expr) return '';
+                try {
+                    // Remove trailing operators/open parens for safe live preview
+                    let cleanExpr = expr.replace(/[+\-×÷(]+$/, '');
+                    if (!cleanExpr) return '';
+
+                    let sanitized = cleanExpr
+                        .replace(/×/g, '*')
+                        .replace(/÷/g, '/')
+                        // Convert percentage to division by 100
+                        .replace(/(\d+(?:\.\d+)?)%/g, '($1/100)')
+                        // Fix implicit multiplication like 2(3) -> 2*(3)
+                        .replace(/(\d)\(/g, '$1*(')
+                        .replace(/\)(\d)/g, ')*$1');
+                    
+                    // Auto-close missing parentheses for live preview
+                    let openCount = (sanitized.match(/\(/g) || []).length;
+                    let closeCount = (sanitized.match(/\)/g) || []).length;
+                    for(let i = 0; i < (openCount - closeCount); i++) sanitized += ')';
+
+                    let result = new Function('return ' + sanitized)();
+                    
+                    if (!isFinite(result) || isNaN(result)) return '';
+                    
+                    // Format to avoid extreme JS float precision issues
+                    result = parseFloat(result.toFixed(10));
+                    return result.toString();
+                } catch (e) {
+                    return ''; // Gracefully fail for live preview
+                }
+            },
+
+            append(char) {
+                if (this.isError || this.showingResult) {
+                    // If result is showing and user presses an operator, chain it to the result
+                    if (this.showingResult && ['+','-','×','÷','%'].includes(char)) {
+                        this.showingResult = false;
+                    } else {
+                        // Otherwise, start fresh
+                        this.expression = '';
+                        this.isError = false;
+                        this.showingResult = false;
+                    }
+                }
+                
+                // Prevent multiple decimals loosely
+                let parts = this.expression.split(/[+\-×÷()]/);
+                let currentPart = parts[parts.length - 1];
+                if (char === '.' && currentPart.includes('.')) return;
+                
+                this.expression += char;
+                this.updateDisplay();
+            },
+
+            delete() {
+                if (this.isError || this.showingResult) {
+                    this.clearAll();
+                    return;
+                }
+                this.expression = this.expression.slice(0, -1);
+                this.updateDisplay();
+            },
+
+            clearAll() {
+                this.expression = '';
+                this.isError = false;
+                this.showingResult = false;
+                document.getElementById('equationDisplay').innerText = '';
+                this.updateDisplay();
+            },
+
+            // Triggered when "=" is pressed
+            compute() {
+                if (!this.expression || this.showingResult) return;
+                
+                let eqText = this.expression; 
+                let resultStr = this.evaluateExpression(this.expression);
+
+                if (resultStr === '') {
+                    this.isError = true;
+                    this.expression = 'Error';
+                    this.showingResult = true;
+                    this.updateDisplay(); // Displays 'Error'
+                } else {
+                    // Save to persistent history
+                    this.saveHistory(eqText, resultStr);
+                    
+                    this.expression = resultStr;
+                    this.showingResult = true;
+                    
+                    this.updateDisplay(); // Updates main display to answer
+                    
+                    // Manually override eqDisplay to show the finalized equation above
+                    const eqDisplay = document.getElementById('equationDisplay');
+                    eqDisplay.style.color = "var(--md-sys-color-on-surface)";
+                    eqDisplay.innerText = currentLang === 'odia' ? toOdiaNumeral(eqText + ' =') : eqText + ' =';
+                }
+            },
+
+            saveHistory(equation, result) {
+                this.history.unshift({ id: Date.now(), eq: equation, res: result });
+                if (this.history.length > 50) this.history.pop();
+                localStorage.setItem('sbg_calc_history', JSON.stringify(this.history));
+                this.renderHistory();
+            },
+
+            clearHistory() {
+                if(confirm(currentLang === 'odia' ? "ସମସ୍ତ ଇତିହାସ ସଫା କରିବାକୁ ନିଶ୍ଚିତ କି?" : "Are you sure you want to clear all history?")) {
+                    this.history = [];
+                    localStorage.removeItem('sbg_calc_history');
+                    this.renderHistory();
+                }
+            },
+
+            restoreHistoryItem(eq) {
+                this.clearAll();
+                this.expression = eq;
+                this.updateDisplay();
+            },
+
+            renderHistory() {
+                const listContainer = document.getElementById('historyList');
+                if (this.history.length === 0) {
+                    let emptyTxt = translations.emptyListMsg.eng;
+                    let emptyOdia = translations.emptyListMsg.odia;
+                    listContainer.innerHTML = `<div style="text-align: center; opacity: 0.6; padding: 24px; font-style: italic;">
+                        ${currentLang === 'both' ? emptyTxt + '<br><span class="odia-sub">'+emptyOdia+'</span>' : (currentLang==='odia' ? emptyOdia : emptyTxt)}
+                    </div>`;
+                } else {
+                    listContainer.innerHTML = this.history.map(item => {
+                        let dispEq = currentLang === 'odia' ? toOdiaNumeral(item.eq) : item.eq;
+                        let dispRes = currentLang === 'odia' ? toOdiaNumeral(item.res) : item.res;
+                        return `
+                        <div class="history-item" onclick="calculator.restoreHistoryItem('${item.eq}')">
+                            <div class="hist-eq">${dispEq} =</div>
+                            <div class="hist-res">${dispRes}</div>
+                        </div>`;
+                    }).join('');
+                }
+            },
+
+            updateDisplay() {
+                const mainDisplay = document.getElementById('mainDisplay');
+                const eqDisplay = document.getElementById('equationDisplay');
+                
+                if (this.isError) {
+                    mainDisplay.innerText = currentLang === 'odia' ? 'ତ୍ରୁଟି' : 'Error';
+                    if(!this.showingResult) eqDisplay.innerText = '';
+                    return;
+                }
+
+                // Update main typed expression
+                let displayTxt = this.expression === '' ? '0' : this.expression;
+                mainDisplay.innerText = currentLang === 'odia' ? toOdiaNumeral(displayTxt) : displayTxt;
+                
+                // --- LIVE RESULT PREVIEW LOGIC ---
+                if (!this.showingResult) {
+                    let liveRes = this.evaluateExpression(this.expression);
+                    // Only display live result if expression actually involves operations and isn't just the number typed
+                    if (liveRes !== '' && liveRes !== this.expression && /[+\-×÷%]/.test(this.expression)) {
+                        eqDisplay.style.color = "var(--md-sys-color-primary)"; // Highlight preview color
+                        eqDisplay.innerText = currentLang === 'odia' ? toOdiaNumeral('= ' + liveRes) : '= ' + liveRes;
+                    } else {
+                        eqDisplay.innerText = '';
+                    }
+                }
+                
+                // Auto-scroll main display to far right if expression gets long
+                mainDisplay.scrollLeft = mainDisplay.scrollWidth;
+            }
+        };
+
+        // --- Physical Keyboard Support ---
+        document.addEventListener('keydown', e => {
+            const validKeys = ['0','1','2','3','4','5','6','7','8','9','.','(',')','%'];
+            if (validKeys.includes(e.key)) calculator.append(e.key);
+            if (e.key === '=' || e.key === 'Enter') { e.preventDefault(); calculator.compute(); }
+            if (e.key === 'Backspace') calculator.delete();
+            if (e.key === 'Escape') calculator.clearAll();
+            if (e.key === '+') calculator.append('+');
+            if (e.key === '-') calculator.append('-');
+            if (e.key === '*') calculator.append('×');
+            if (e.key === '/') { e.preventDefault(); calculator.append('÷'); }
+        });
+
+        document.getElementById('langSwitch').addEventListener('change', function(e) {
+            currentLang = e.target.value; 
+            localStorage.setItem('sbg_lang', currentLang);
+            updateTranslations();
+            calculator.updateDisplay();
+            calculator.renderHistory();
+        });
+
+        window.addEventListener('load', () => {
+            updateTranslations();
+            calculator.updateDisplay();
+            calculator.renderHistory();
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 500);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
